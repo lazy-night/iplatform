@@ -1,3 +1,3 @@
 # IPLatform
 
-かっこ仮
+developer: @yymm, @doragon
