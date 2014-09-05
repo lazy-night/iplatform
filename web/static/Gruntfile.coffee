@@ -1,4 +1,5 @@
 module.exports = (grunt) ->
+    pkg = grunt.file.readJSON 'package.json'
     grunt.initConfig
         coffee:
             compile:
@@ -22,7 +23,7 @@ module.exports = (grunt) ->
                 files: ['sass/*.sass']
                 tasks: ['sass']
     
-    grunt.loadNpmTasks 'grunt-contrib-watch'
-    grunt.loadNpmTasks 'grunt-contrib-coffee'
-    grunt.loadNpmTasks 'grunt-contrib-sass'
+    for taskName of pkg.devDependencies when taskName.substring(0, 6) is 'grunt-'
+            grunt.loadNpmTasks taskName
+
     grunt.registerTask 'default', ['coffee', 'sass']
