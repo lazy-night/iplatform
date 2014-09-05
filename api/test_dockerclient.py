@@ -1,12 +1,12 @@
 import pytest
 import dockerclient
 
-class TestDockerClient:
 
+class TestDockerClient:
 
     def __init__(self):
         print '[TestDockerClient.__init__]'
-        self.dockerc = new DockerClient()
+        self.dockerc = new idockerclient.DockerClient()
 
 #     def build(self, path=None, tag=None, quiet=False, fileobj=None,
 #         nocache=False, rm=False, stream=False,
@@ -15,8 +15,8 @@ class TestDockerClient:
 #         print '[TODO]'
 #         return 'test'
 
-    def test_containers(self, quiet=False, all=False, trunc=True,
-        latest=False, since=None, before=None, limit=-1):
+    def test_containers(self, quiet=False, all=False, trunc=True, latest=False,
+        since=None, before=None, limit=-1):
         print '[TestDockerClient.test_containers]'
         assert self.dockerc.containers() == 'test'
 
@@ -53,7 +53,8 @@ class TestDockerClient:
 
 #     def start(self, container, binds=None, port_bindings=None, lxc_conf=None,
 #         publish_all_ports=False, links=None, privileged=False,
-#         dns=None, dns_search=None, volumes_from=None, network_mode=None, restart_policy=None):
+#         dns=None, dns_search=None, volumes_from=None,
+#         network_mode=None, restart_policy=None):
 #         print '[DockerClient.start]'
 #         print '[TODO]'
 #         return 'test'
