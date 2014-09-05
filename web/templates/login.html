@@ -1,0 +1,19 @@
+{% extends "layout.html" %}
+
+{% block body %}
+<h1>IPLatform</h1>
+<form action="{{ url_for('login') }}" method=post>
+	<h3>Login</h3>
+    <input name='name' class="text" type="text"></input>
+    <br />
+    <input name='password' class="text" type="password"></input>
+	<input type='submit'></input>
+</form>
+<form action="{{ url_for('add_user') }}" method=post>
+	<h3>Registration</h3>
+    <input name='name' class="text" type="text"></input>
+    <br />
+    <input name='password' class="text" type="password"></input>
+	<input type='submit'></input>
+</form>
+{% endblock %}
