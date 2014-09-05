@@ -6,7 +6,7 @@ class TestDockerClient:
 
     def __init__(self):
         print '[TestDockerClient.__init__]'
-        self.dockerc = new idockerclient.DockerClient()
+        self.dockerc = new dockerclient.DockerClient()
 
 #     def build(self, path=None, tag=None, quiet=False, fileobj=None,
 #         nocache=False, rm=False, stream=False,
@@ -15,7 +15,7 @@ class TestDockerClient:
 #         print '[TODO]'
 #         return 'test'
 
-    def test_containers(self, quiet=False, all=False, trunc=True, latest=False,
+    def test_containers(self, quiet=False, all=False, trunc=True, latest=False, \
         since=None, before=None, limit=-1):
         print '[TestDockerClient.test_containers]'
         assert self.dockerc.containers() == 'test'
