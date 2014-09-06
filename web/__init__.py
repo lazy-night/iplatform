@@ -2,7 +2,7 @@
 
 from functools import wraps
 from flask import Flask, render_template, session, g, \
-                  Markup, request, redirect, url_for, flash
+                  request, redirect, url_for, flash
 
 app = Flask(__name__)
 app.config.from_object('config')
@@ -44,12 +44,17 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/add_user', methods=['POST'])
-def add_user():
-    name = request.form['name']
-    password = request.form['password']
-    insert_user(name, password)
-    return redirect(url_for('login'))
+@app.route('/signup', methods=['POST', 'GET'])
+def signup():
+    if request.method == 'POST':
+        name = request.form['name']
+        password = request.form['password']
+        user = varify_user(name, password)
+        if user == None:
+            insert_user(name, password)
+            return redirect(url_for('login'))
+
+    return render_template('signup.html')
 
 
 @app.route('/logout')

@@ -2,12 +2,11 @@
 
 {% block body %}
 <h1>IPLatform</h1>
-<form action="{{ url_for('login') }}" method=post>
-	<h3>Login</h3>
+<form action="{{ url_for('signup') }}" method=post>
+	<h3>Signup</h3>
     <input name='name' class="text" type="text"></input>
     <br />
     <input name='password' class="text" type="password"></input>
 	<input type='submit'></input>
 </form>
-<h4><a href={{ url_for("signup") }}>Signup</a></h4>
 {% endblock %}
