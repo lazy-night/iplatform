@@ -1,16 +1,34 @@
-# IPLatform
+IPLatform
+====
 
-developer: @yymm, @doragon
+This application is a PaaS. Use the docker, you can build a server environment without an engineer. 
 
-# go version
+## Description
 
-go1.3
+## Demo
 
-# package list
+## VS. 
 
-* go get github.com/go-martini/martini
+## Requirement
+
+[requirements.txt](https://github.com/lazy-night/iplatform/blob/master/requirements.txt)
+
+## Usage
 
 # How to run server
 
     $ pip install -r requirements.txt
-	$ python run.py
+    $ python run.py
+
+## Install
+
+## Contribution
+
+## Licence
+
+[MIT]
+
+## Author
+
+[yymm](https://github.com/yymm)
+[doragon](https://github.com/doragon)
