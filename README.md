@@ -24,6 +24,14 @@ This application is a PaaS. Use the docker, you can build a server environment w
 
 ## Contribution
 
+## Document
+
+## Ticket
+
+## Deploy
+
+## Test
+
 ## Licence
 
 [MIT]
