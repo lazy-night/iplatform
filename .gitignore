@@ -5,3 +5,4 @@ node_modules
 web/static/css
 web/static/js
 .sass-cache
+*.db
