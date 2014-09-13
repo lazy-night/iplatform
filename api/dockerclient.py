@@ -7,7 +7,8 @@ class DockerClient:
         print '[DockerClient.__init__]'
         try:
             self.dockerc = docker.Client(
-                base_url='unix://var/run/docker.sock',
+                # base_url='unix://var/run/docker.sock',
+                base_url='tcp://128.199.213.43:4243',
                 version='1.12',
                 timeout=10
             )
@@ -33,7 +34,8 @@ class DockerClient:
         latest=False, since=None, before=None, limit=-1):
         print '[DockerClient.containers]'
         print '[TODO]'
-        return 'test'
+        return self.dockerc.containers()
+        # return 'test'
 
     def create_container(self, image, command=None, hostname=None, user=None,
         detach=False, stdin_open=False, tty=False, mem_limit=0,
