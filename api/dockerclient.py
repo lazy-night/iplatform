@@ -33,9 +33,9 @@ class DockerClient:
     def containers(self, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
         print '[DockerClient.containers]'
-        print '[TODO]'
-        return self.dockerc.containers()
-        # return 'test'
+        return self.dockerc.containers(
+            quiet=False, all=False, trunc=True, latest=False,
+            since=None, before=None, limit=-1)
 
     def create_container(self, image, command=None, hostname=None, user=None,
         detach=False, stdin_open=False, tty=False, mem_limit=0,
@@ -49,8 +49,9 @@ class DockerClient:
 
     def images(self, name=None, quiet=False, all=False, viz=False):
         print '[DockerClient.images]'
-        print '[TODO]'
-        return 'test'
+        # print '[TODO]'
+        # return 'test'
+        return self.dockerc.images(name=None, quiet=False, all=False, viz=False)
 
     def pull(self, repository, tag=None, stream=False):
         print '[DockerClient.pull]'

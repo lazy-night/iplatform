@@ -20,7 +20,8 @@ class TestDockerClient:
         since=None, before=None, limit=-1
     ):
         print '[TestDockerClient.test_containers]'
-        assert self.dockerc.containers() == 'test'
+        print '[self.dockerc.containers()]' + str(self.dockerc.containers())
+        assert len(self.dockerc.containers()) > 0
 
 
 #     def create_container(self, image, command=None, hostname=None, user=None,
@@ -33,10 +34,12 @@ class TestDockerClient:
 #         print '[TODO]'
 #         return 'test'
 
-#     def images(self, name=None, quiet=False, all=False, viz=False):
-#         print '[DockerClient.images]'
-#         print '[TODO]'
-#         return 'test'
+    def test_images(self, name=None, quiet=False, all=False, viz=False):
+        print '[TestDockerClient.test_images]'
+        # print '[TODO]'
+        # return 'test'
+        print '[self.dockerc.images()]' + str(self.dockerc.images())
+        assert len(self.dockerc.images()) > 0
 
 #     def pull(self, repository, tag=None, stream=False):
 #         print '[DockerClient.pull]'
