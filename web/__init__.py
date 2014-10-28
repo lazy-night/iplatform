@@ -39,7 +39,7 @@ def login():
         if user:
             session['user_id'] = user.id
             g.user = user
-            return redirect(url_for('index'))
+            return redirect(url_for('container'))
 
     return render_template('login.html')
 
@@ -63,8 +63,13 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/')
+@app.route('/container')
 @requires_login
-def index():
+def container():
     name = g.user.name
+    return render_template('container.html', **locals())
+
+
+@app.route('/')
+def index():
     return render_template('index.html', **locals())
