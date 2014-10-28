@@ -36,8 +36,6 @@ class TestDockerClient:
 
     def test_images(self, name=None, quiet=False, all=False, viz=False):
         print '[TestDockerClient.test_images]'
-        # print '[TODO]'
-        # return 'test'
         print '[self.dockerc.images()]' + str(self.dockerc.images())
         assert len(self.dockerc.images()) > 0
 
