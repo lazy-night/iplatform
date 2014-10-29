@@ -63,11 +63,11 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/container')
+@app.route('/containers')
 @requires_login
 def container():
     name = g.user.name
-    return render_template('container.html', **locals())
+    return render_template('containers.html', **locals())
 
 
 @app.route('/')
