@@ -5,12 +5,27 @@
 {% endblock %}
 
 {% block body %}
-<h1>IPLatform</h1>
-<form action="{{ url_for('signup') }}" method=post>
-	<h3>Signup</h3>
-    <input name='name' class="text" type="text"></input>
-    <br />
-    <input name='password' class="text" type="password"></input>
-	<input type='submit'></input>
-</form>
+<!--<h1>IPLatform</h1>-->
+<!--<form action="{{ url_for('signup') }}" method=post>-->
+	<!--<h3>Signup</h3>-->
+    <!--<input name='name' class="text" type="text"></input>-->
+    <!--<br />-->
+    <!--<input name='password' class="text" type="password"></input>-->
+	<!--<input type='submit'></input>-->
+<!--</form>-->
+
+<div class="container">
+
+  <form class="form-signin" role="form">
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input type="email" class="form-control" placeholder="Email address" required autofocus>
+    <input type="password" class="form-control" placeholder="Password" required>
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+  </form>
+
+</div> <!-- /container -->
+
 {% endblock %}
