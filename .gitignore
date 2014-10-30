@@ -2,7 +2,5 @@ _vendor
 *.pyc
 node_modules
 *.map
-web/static/css
-web/static/js
 .sass-cache
 *.db
