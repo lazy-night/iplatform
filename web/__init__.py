@@ -60,7 +60,7 @@ def signup():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
 
 
 @app.route('/containers')

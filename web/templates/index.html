@@ -14,26 +14,26 @@
 
       <div class="masthead clearfix">
         <div class="inner">
-          <h3 class="masthead-brand">iPlatform</h3>
+          <h3 class="masthead-brand">IPLatform</h3>
           <ul class="nav masthead-nav">
-            <li class="active"><a href="#">Home</a></li>
-            <li><a href="#">Features</a></li>
-            <li><a href="#">Contact</a></li>
+            <li id="home" class="active"><a href="#">Home</a></li>
+            <li id="contact"><a href="#">Contact</a></li>
+			<li id="login"><a href="{{ url_for('login') }}">Login</a></li>
           </ul>
         </div>
       </div>
 
       <div class="inner cover">
         <h1 class="cover-heading">IPLatform</h1>
-        <p class="lead">PaaS engine using Docker.</p>
+        <p id='explain' class="lead">PaaS engine using Docker.</p>
         <p class="lead">
-          <a href="#" class="btn btn-lg btn-default">Learn more</a>
+          <a href="{{ url_for('signup') }}" class="btn btn-lg btn-default">Sign up</a>
         </p>
       </div>
 
       <div class="mastfoot">
         <div class="inner">
-          <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+			<p>Copyright &copy; 2014 <a href="https://github.com/yymm">@yymm</a> and <a href="https://github.com/doragon">@doragon</a> All Rights Reserved.</p>
         </div>
       </div>
 
@@ -42,5 +42,7 @@
   </div>
 
 </div>
+
+<script type="text/javascript" src="{{ url_for('static', filename='js/index.js') }}"></script>
 
 {% endblock %}
