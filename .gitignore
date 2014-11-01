@@ -1,8 +1,7 @@
 _vendor
+.DS_Store
 *.pyc
 node_modules
 *.map
-web/static/css
-web/static/js
 .sass-cache
 *.db

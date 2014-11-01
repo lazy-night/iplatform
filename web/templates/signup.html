@@ -1,12 +1,29 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/signup.css') }}">
+{% endblock %}
+
 {% block body %}
-<h1>IPLatform</h1>
-<form action="{{ url_for('signup') }}" method=post>
-	<h3>Signup</h3>
-    <input name='name' class="text" type="text"></input>
-    <br />
-    <input name='password' class="text" type="password"></input>
-	<input type='submit'></input>
-</form>
+<!--<h1>IPLatform</h1>-->
+<!--<form action="{{ url_for('signup') }}" method=post>-->
+	<!--<h3>Signup</h3>-->
+    <!--<input name='name' class="text" type="text"></input>-->
+    <!--<br />-->
+    <!--<input name='password' class="text" type="password"></input>-->
+	<!--<input type='submit'></input>-->
+<!--</form>-->
+
+<div class="container">
+
+  <form class="form-signin" role="form" action="{{ url_for('signup') }}" method=post>
+    <h2 class="form-signin-heading">Please sign in</h2>
+    <input name="name" type="text" class="form-control" placeholder="Name" required autofocus>
+    <input name="password" type="password" class="form-control" placeholder="Password" required>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    <p style="margin: 20px 0;">If you already sign in, goto <a href={{ url_for("login") }}>Login</a></p>
+  </form>
+
+</div> <!-- /container -->
+
 {% endblock %}

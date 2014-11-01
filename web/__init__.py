@@ -39,7 +39,7 @@ def login():
         if user:
             session['user_id'] = user.id
             g.user = user
-            return redirect(url_for('index'))
+            return redirect(url_for('container'))
 
     return render_template('login.html')
 
@@ -60,11 +60,16 @@ def signup():
 @app.route('/logout')
 def logout():
     session.pop('user_id', None)
-    return redirect(url_for('login'))
+    return redirect(url_for('index'))
+
+
+@app.route('/containers')
+@requires_login
+def container():
+    name = g.user.name
+    return render_template('containers.html', **locals())
 
 
 @app.route('/')
-@requires_login
 def index():
-    name = g.user.name
     return render_template('index.html', **locals())

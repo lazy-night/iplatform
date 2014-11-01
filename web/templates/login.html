@@ -1,13 +1,33 @@
 {% extends "layout.html" %}
 
+{% block head %}
+<link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/login.css') }}">
+{% endblock %}
+
 {% block body %}
-<h1>IPLatform</h1>
-<form action="{{ url_for('login') }}" method=post>
-	<h3>Login</h3>
-    <input name='name' class="text" type="text"></input>
-    <br />
-    <input name='password' class="text" type="password"></input>
-	<input type='submit'></input>
-</form>
-<h4><a href={{ url_for("signup") }}>Signup</a></h4>
+<!--<h1>IPLatform</h1>-->
+<!--<form action="{{ url_for('login') }}" method=post>-->
+	<!--<h3>Login</h3>-->
+    <!--<input name='name' class="text" type="text"></input>-->
+    <!--<br />-->
+    <!--<input name='password' class="text" type="password"></input>-->
+	<!--<input type='submit'></input>-->
+<!--</form>-->
+<!--<h4><a href={{ url_for("signup") }}>Signup</a></h4>-->
+
+<div class="container">
+
+  <form class="form-login" role="form" action="{{ url_for('login') }}" method=post>
+    <h2 class="form-login-heading">Login</h2>
+    <input name="name" type="text" class="form-control" placeholder="Name" required autofocus>
+    <input name="password" type="password" class="form-control" placeholder="Password" required>
+    <label class="checkbox">
+      <input type="checkbox" value="remember-me"> Remember me
+    </label>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Login</button>
+    <p style="margin: 20px 0;">If you don't sign in, goto <a href={{ url_for("signup") }}>Sign in</a></p>
+  </form>
+
+</div> <!-- /container -->
+
 {% endblock %}
