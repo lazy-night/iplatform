@@ -2,7 +2,6 @@
 
 {% block head %}
 <link rel=stylesheet type=text/css href="{{ url_for('static', filename='css/containers.css') }}">
-<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.6/vue.min.js"></script>
 {% endblock %}
 
 {% block body %}
@@ -20,10 +19,10 @@
     </div>
     <div class="navbar-collapse collapse">
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#">Launch</a></li>
-        <li><a href="#">Dashboard</a></li>
-        <li><a href="#">Analytics</a></li>
-        <li><a href="#">Settings</a></li>
+        <li><a id="navbar-launch" href="#">Launch</a></li>
+        <li><a id="navbar-dashboard" href="#">Dashboard</a></li>
+        <li><a id="navbar-graph" href="#">Analytics</a></li>
+        <li><a id="navbar-settings" href="#">Settings</a></li>
 		<li><a href="{{ url_for('logout') }}">Logout</a></li>
       </ul>
       <form class="navbar-form navbar-right">
@@ -33,13 +32,14 @@
   </div>
 </div>
 
-<div class="container-fluid">
+<div id="vue-container" class="container-fluid">
   <div class="row">
     <div class="col-sm-3 col-md-2 sidebar">
       <ul class="nav nav-sidebar">
-        <li class="active"><a href="#">Dashboard</a></li>
-        <li><a href="#">Analytics</a></li>
-        <li><a href="#">Setting</a></li>
+        <li id="nav-launch" v-class="active: launch"><a href="#">Launch</a></li>
+        <li id="nav-dashboard" v-class="active: dashboard"><a href="#">Dashboard</a></li>
+        <li id="nav-graph" v-class="active: graph"><a href="#">Analytics</a></li>
+        <li id="nav-settings" v-class="active: settings"><a href="#">Setting</a></li>
       </ul>
       <ul class="nav nav-sidebar">
 		<!--body内はjinja2で生成 - ここには作業履歴とかかな...-->
@@ -56,33 +56,65 @@
       </ul>
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-      <h1 class="page-header">Dashboard</h1>
+	  <h1 class="page-header">Your Platform</h1>
 
       <div class="row placeholders">
         <div class="col-xs-6 col-sm-3 placeholder">
-		  <img class="img-responsive" width="200" height="200" src="{{ url_for('static', filename='img/startup.png') }}">
+		  <img id="img-launch" class="icon-btn img-responsive" width="150" height="150" src="{{ url_for('static', filename='img/startup.png') }}">
           <h4>Launch</h4>
-          <span class="text-muted">Something else</span>
+          <span class="text-muted">Create docker container</span>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-		  <img class="img-responsive" width="200" height="200" src="{{ url_for('static', filename='img/dash.png') }}">
+		  <img id="img-dashboard" class="icon-btn img-responsive" width="150" height="150" src="{{ url_for('static', filename='img/dash.png') }}">
           <h4>Dashboard</h4>
-          <span class="text-muted">Something else</span>
+          <span class="text-muted">List docker containers</span>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-		  <img class="img-responsive" width="200" height="200" src="{{ url_for('static', filename='img/graph.png') }}">
+		  <img id="img-graph" class="icon-btn img-responsive" width="150" height="150" src="{{ url_for('static', filename='img/graph.png') }}">
           <h4>Analytics</h4>
-          <span class="text-muted">Something else</span>
+          <span class="text-muted">Docker container's condition</span>
         </div>
         <div class="col-xs-6 col-sm-3 placeholder">
-		  <img class="img-responsive" width="200" height="200" src="{{ url_for('static', filename='img/wrench.png') }}">
+		  <img id="img-settings" class="icon-btn img-responsive" width="150" height="150" src="{{ url_for('static', filename='img/wrench.png') }}">
           <h4>Settings</h4>
-          <span class="text-muted">Something else</span>
+          <span class="text-muted">User settings</span>
         </div>
       </div>
 
-      <h2 class="sub-header">Containers</h2>
-      <div class="table-responsive">
+      <h2 v-text="header" class="sub-header">Containers</h2>
+
+	  <!--launch-->
+	  <div v-show="launch">
+        <div class="row placeholders">
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+          <div class="col-xs-3 col-sm-2 placeholder">
+			<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="data:image/gif;base64,R0lGODlhAQABAIAAAHd3dwAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw==" class="img-circle">
+            <h4>Image</h4>
+          </div>
+        </div>
+      </div>
+
+	  <!--dashboard-->
+      <div v-show="dashboard" class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
@@ -126,8 +158,40 @@
           </tbody>
         </table>
       </div>
+
+	  <!--graph-->
+      <div v-show="graph" class="placeholders">
+	    <div class="row">
+          <div class="col-xs-6 col-sm-6 placeholder">
+            <img alt="500x500" data-src="holder.js/500x500/auto" class="featurette-image img-responsive" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE5MC41IiB5PSIyNTAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjNwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj41MDB4NTAwPC90ZXh0PjwvZz48L3N2Zz4=" data-holder-rendered="true">
+            <h4>Graph</h4>
+            <span class="text-muted">Discription</span>
+          </div>
+          <div class="col-xs-6 col-sm-6 placeholder">
+            <img alt="500x500" data-src="holder.js/500x500/auto" class="featurette-image img-responsive" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE5MC41IiB5PSIyNTAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjNwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj41MDB4NTAwPC90ZXh0PjwvZz48L3N2Zz4=" data-holder-rendered="true">
+            <h4>Graph</h4>
+            <span class="text-muted">Discription</span>
+          </div>
+        </div>
+	    <div class="row">
+          <div class="col-xs-6 col-sm-6 placeholder">
+            <img alt="500x500" data-src="holder.js/500x500/auto" class="featurette-image img-responsive" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE5MC41IiB5PSIyNTAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjNwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj41MDB4NTAwPC90ZXh0PjwvZz48L3N2Zz4=" data-holder-rendered="true">
+            <h4>Graph</h4>
+            <span class="text-muted">Discription</span>
+          </div>
+          <div class="col-xs-6 col-sm-6 placeholder">
+            <img alt="500x500" data-src="holder.js/500x500/auto" class="featurette-image img-responsive" src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgdmlld0JveD0iMCAwIDUwMCA1MDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjxkZWZzLz48cmVjdCB3aWR0aD0iNTAwIiBoZWlnaHQ9IjUwMCIgZmlsbD0iI0VFRUVFRSIvPjxnPjx0ZXh0IHg9IjE5MC41IiB5PSIyNTAiIHN0eWxlPSJmaWxsOiNBQUFBQUE7Zm9udC13ZWlnaHQ6Ym9sZDtmb250LWZhbWlseTpBcmlhbCwgSGVsdmV0aWNhLCBPcGVuIFNhbnMsIHNhbnMtc2VyaWYsIG1vbm9zcGFjZTtmb250LXNpemU6MjNwdDtkb21pbmFudC1iYXNlbGluZTpjZW50cmFsIj41MDB4NTAwPC90ZXh0PjwvZz48L3N2Zz4=" data-holder-rendered="true">
+            <h4>Graph</h4>
+            <span class="text-muted">Discription</span>
+          </div>
+        </div>
+      </div>
+
     </div>
   </div>
 </div>
+
+<script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/vue/0.10.6/vue.min.js"></script>
+<script type="text/javascript" src="{{ url_for('static', filename='js/containers.js') }}"></script>
 
 {% endblock %}
