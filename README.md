@@ -46,6 +46,19 @@ DISTRIB_DESCRIPTION="Ubuntu 14.04.1 LTS"
 Linux iplatform 3.13.0-32-generic #57-Ubuntu SMP Tue Jul 15 03:51:08 UTC 2014 x86_64 x86_64 x86_64 GNU/Linux
 ```
 
+```sh
+# docker version
+Client version: 1.3.1
+Client API version: 1.15
+Go version (client): go1.3.3
+Git commit (client): 4e9bbfa
+OS/Arch (client): linux/amd64
+Server version: 1.3.1
+Server API version: 1.15
+Go version (server): go1.3.3
+Git commit (server): 4e9bbfa
+```
+
 ## Licence
 
 [MIT]
