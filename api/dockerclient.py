@@ -7,8 +7,12 @@ class DockerClient:
         print '[DockerClient.__init__]'
         try:
             self.dockerc = docker.Client(
+                ## default
                 # base_url='unix://var/run/docker.sock',
-                base_url='tcp://128.199.213.43:4243',
+                ## degital ocean
+                # base_url='tcp://128.199.213.43:4243',
+                ## development
+                base_url='tcp://192.168.59.103:2376',
                 version='1.12',
                 timeout=10
             )
@@ -68,3 +72,7 @@ class DockerClient:
     def stop(self, container, timeout=10):
         print '[DockerClient.stop]'
         return self.dockerc.stop(container=container)
+
+if __name__ == '__main__':
+    dockerc = DockerClient()
+    print dockerc.images()
