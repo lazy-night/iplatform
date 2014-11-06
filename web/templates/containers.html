@@ -119,42 +119,23 @@
           <thead>
             <tr>
               <th>#</th>
-              <th>OS</th>
-              <th>Name</th>
+              <th>Image</th>
               <th>Status</th>
-              <th>Response</th>
+              <th>Ports</th>
+              <th>Command</th>
             </tr>
           </thead>
           <tbody>
 			<!--body内はjinja2で生成-->
+            {% for c in containers  %}
             <tr>
-              <td>1</td>
-              <td>ubuntu:latest</td>
-              <td>Apache</td>
-              <td>Active</td>
-              <td>-</td>
+              <td>{{ loop.index }}</td>
+              <td>{{ c['Image'] }}</td>
+              <td>{{ c['Status'] }}</td>
+              <td>{{ c['Ports'] }}</td>
+              <td>{{ c['Command'] }}</td>
             </tr>
-            <tr>
-              <td>2</td>
-              <td>CentOS 6.5</td>
-              <td>Nginx</td>
-			  <td>Down</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>3</td>
-              <td>Arch</td>
-              <td>GitLab</td>
-              <td>Active</td>
-              <td>-</td>
-            </tr>
-            <tr>
-              <td>4</td>
-              <td>Ubuntu 14.10</td>
-              <td>Jenkins</td>
-              <td>Abort</td>
-              <td>-</td>
-            </tr>
+            {% endfor %}
           </tbody>
         </table>
       </div>

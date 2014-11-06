@@ -12,7 +12,8 @@ class DockerClient:
                 ## degital ocean
                 # base_url='tcp://128.199.213.43:4243',
                 ## development
-                base_url='tcp://192.168.59.103:2376',
+                # base_url='tcp://192.168.59.103:2376',
+                base_url='tcp://0.0.0.0:4243',
                 version='1.12',
                 timeout=10
             )
@@ -33,10 +34,20 @@ class DockerClient:
 #         print '[DockerClient.commit]'
 #         print '[TODO]'
 
-    def containers(self, quiet=False, all=False, trunc=True,
+    def containers(self, name=None, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
         print '[DockerClient.containers]'
-        return self.dockerc.containers()
+        containers = self.dockerc.containers()
+        res = []
+        if name:
+            for c in [cs for cs in containers if name in cs['Image']]:
+                dic = c
+                ports = []
+                for p in c['Ports']:
+                    ports.append(str(p['PublicPort']) + ' => ' + str(p['PrivatePort']))
+                dic['Ports'] = ports
+                res.append(dic)
+        return res
 
     def create_container(self, image, command=None, hostname=None, user=None,
         detach=False, stdin_open=False, tty=False, mem_limit=0,

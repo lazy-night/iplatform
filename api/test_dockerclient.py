@@ -13,11 +13,7 @@ class TestDockerClient(unittest.TestCase):
 
     def test_containers(self):
         print '[TestDockerClient.__init__]'
-        #dockerc = dockerclient.DockerClient()
-        print 'test'
-        #return True
-        print self.dockerc.containers()
-        assert len(self.dockerc.containers()) > 0
+        assert len(self.dockerc.containers(name='koide')) > 0
 
 
 
