@@ -24,15 +24,18 @@ class DockerClient:
             print 'message:' + e.message
             print 'Exception as e:' + str(e)
 
+
     def build(self, path=None, tag=None, quiet=False, fileobj=None,
         nocache=False, rm=False, stream=False,
         timeout=None, custom_context=False, encoding=None):
         print '[DockerClient.build]'
         return self.dockerc.build(path=path, tag=tag)
 
+
 #     def commit(self, container, repository=None, tag=None, message=None, author=None, conf=None):
 #         print '[DockerClient.commit]'
 #         print '[TODO]'
+
 
     def containers(self, name=None, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
@@ -49,6 +52,7 @@ class DockerClient:
                 res.append(dic)
         return res
 
+
     def create_container(self, image, command=None, hostname=None, user=None,
         detach=False, stdin_open=False, tty=False, mem_limit=0,
         ports=None, environment=None, dns=None, volumes=None,
@@ -58,21 +62,34 @@ class DockerClient:
         print '[DockerClient.create_containers]'
         return self.dockerc.createcontainer(image=image, ports=ports)
 
+
     def images(self, name=None, quiet=False, all=False, viz=False):
         print '[DockerClient.images]'
-        return self.dockerc.images(name=name)
+        images = self.dockerc.images()
+        res = []
+        if name:
+            for img in [imgs for imgs in images if name in imgs['RepoTags'][0].split('/')[0]]:
+                dic = {}
+                dic['RepoTags'] = img['RepoTags']
+                dic['Id'] = img['Id']
+                res.append(dic)
+        return res
+
 
     def pull(self, repository, tag=None, stream=False):
         print '[DockerClient.pull]'
         return self.dockerc.pull(repository=repository, tag=tag)
 
+
     def remove_container(self, container, v=False, link=False):
         print '[DockerClient.remove_container]'
         return self.dockerc.remove_container(container=container)
 
+
     def remove_image(self, image):
         print '[DockerClient.remove_image]'
         return self.dockerc.remove_image(image=image)
+
 
     def start(self, container, binds=None, port_bindings=None, lxc_conf=None,
         publish_all_ports=False, links=None, privileged=False,
@@ -80,10 +97,12 @@ class DockerClient:
         print '[DockerClient.start]'
         return self.dockerc.start(container=container, port_bindings=port_bindings)
 
+
     def stop(self, container, timeout=10):
         print '[DockerClient.stop]'
         return self.dockerc.stop(container=container)
 
+
 if __name__ == '__main__':
     dockerc = DockerClient()
-    print dockerc.images()
+    # print dockerc.images(name='koide')
