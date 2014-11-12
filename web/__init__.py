@@ -8,6 +8,7 @@ app = Flask(__name__)
 app.config.from_object('config')
 
 from web.database import db_session, User, insert_user, varify_user
+from api.dockerclient import DockerClient
 
 @app.before_request
 def load_current_user():
@@ -67,6 +68,8 @@ def logout():
 @requires_login
 def container():
     name = g.user.name
+    dockerc = DockerClient()
+    containers = dockerc.containers(name=name)
     return render_template('containers.html', **locals())
 
 
