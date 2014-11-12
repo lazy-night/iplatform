@@ -1,0 +1,9 @@
+FROM ${image}
+
+MAINTAINER koide
+
+${app}
+
+${port}
+
+${command}
