@@ -5,16 +5,20 @@ import dockerclient
 
 class TestDockerClient(unittest.TestCase):
 
-    # def __init__(self):
-    #     self.dockerc = dockerclient.DockerClient()
-
     def setUp(self):
         self.dockerc = dockerclient.DockerClient()
 
+
     def test_containers(self):
-        print '[TestDockerClient.__init__]'
+        print '[TestDockerClient.test_containers()]'
+        print '[self.dockerc.containers()]' + str(self.dockerc.containers())
         assert len(self.dockerc.containers(name='koide')) > 0
 
+
+    def test_images(self):
+        print '[TestDockerClient.test_images()]'
+        print '[self.dockerc.images()]' + str(self.dockerc.images())
+        assert len(self.dockerc.images(name='koide')) > 0
 
 
 # class TestDockerClient:
@@ -30,15 +34,6 @@ class TestDockerClient(unittest.TestCase):
 # #         print '[TODO]'
 # #         return 'test'
 # 
-#     def test_containers(
-#         self, quiet=False, all=False, trunc=True, latest=False,
-#         since=None, before=None, limit=-1
-#     ):
-#         print '[TestDockerClient.test_containers]'
-#         print '[self.dockerc.containers()]' + str(self.dockerc.containers())
-#         assert len(self.dockerc.containers()) > 1
-# 
-# 
 # #     def create_container(self, image, command=None, hostname=None, user=None,
 # #         detach=False, stdin_open=False, tty=False, mem_limit=0,
 # #         ports=None, environment=None, dns=None, volumes=None,
@@ -48,11 +43,6 @@ class TestDockerClient(unittest.TestCase):
 # #         print '[DockerClient.create_containers]'
 # #         print '[TODO]'
 # #         return 'test'
-# 
-#     def test_images(self, name=None, quiet=False, all=False, viz=False):
-#         print '[TestDockerClient.test_images]'
-#         print '[self.dockerc.images()]' + str(self.dockerc.images())
-#         assert len(self.dockerc.images()) > 0
 # 
 # #     def pull(self, repository, tag=None, stream=False):
 # #         print '[DockerClient.pull]'
