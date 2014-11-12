@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+import json
 from functools import wraps
 from flask import Flask, render_template, session, g, \
                   request, redirect, url_for, flash
@@ -69,6 +70,7 @@ def logout():
 def container():
     name = g.user.name
     dockerc = DockerClient()
+    images = dockerc.images(name=name)
     containers = dockerc.containers(name=name)
     return render_template('containers.html', **locals())
 
@@ -76,3 +78,13 @@ def container():
 @app.route('/')
 def index():
     return render_template('index.html', **locals())
+
+
+@app.route('/launch', methods=['POST'])
+def launch():
+    if request.method == 'POST':
+        print 'TODO'
+        inputdata = request.json
+        inputdata = {'name' : 'testn', 'user' : 'testu', 'app': 'testa', 'image' : 'testi'}
+    result = 'success' # or 'failure'
+    return json.dumps({ 'result' : result })
