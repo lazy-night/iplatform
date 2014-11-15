@@ -21,6 +21,15 @@ class TestDockerClient(unittest.TestCase):
         assert len(self.dockerc.images(name='koide')) > 0
 
 
+    def test_build(self):
+        print '[TestDockerClient.build()]'
+        result = self.dockerc.build(
+            image='ubuntu:14.04', app='', port='80',
+            command='"/usr/sbin/apache2", "-D", "FOREGROUND"',
+            imagename='koide/test_apache2')
+        assert len(self.dockerc.images(name='koide')) > 2
+
+
 # class TestDockerClient:
 # 
 #     def __init__(self):

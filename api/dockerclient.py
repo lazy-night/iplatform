@@ -2,6 +2,8 @@ import commands
 import docker
 import logging
 import logging.config
+import os
+from string import Template
 
 
 class DockerClient:
@@ -30,28 +32,34 @@ class DockerClient:
             self.logger.error('Exception as e:' + str(e))
 
 
-    def build(self, path=None, tag=None, quiet=False, fileobj=None,
-        nocache=False, rm=False, stream=False,
-        timeout=None, custom_context=False, encoding=None):
+    def build(self, image, app, port, command, imagename):
         self.logger.info('[DockerClient.build]')
-        # return self.dockerc.build(path=path, tag=tag)
-        workpath = '/var/data'
+        workpath = './api/workspace'
+        templatepath = './api/template/Dockerfile.template'
         values = {}
-        values['name'] = 'name'
-        values['host'] = 'host'
+        values['image'] = image
+        values['app'] = app
+        values['port'] = port
+        values['command'] = command
 
-        with open('Dockerfile.template', 'rt') as templatef:
+        with open(templatepath, 'rt') as templatef:
             template = Template(templatef.read())
             converted = template.substitute(values)
             with open(os.path.join(workpath, 'Dockerfile'), 'wt') as dockerfilef:
                 dockerfilef.write(converted)
 
         # copy conf directory
-        shutil.copytree('conf',os.path.join(workpath, 'conf'))
+        # shutil.copytree('conf',os.path.join(workpath, 'conf'))
 
-        imagename = 'imagename'
-        imageid, result = dockerc.build(path=workpath, tag=imagename, rm=True)
-        if not imageid: logging.error('Failed to build: ' + str(result))
+        result = self.dockerc.build(path=workpath, tag=imagename, rm=True)
+        result = list(result)[-1]
+        self.logger.info(result)
+
+        imageid = None
+        if 'Successfully built' in result:
+            imageid = result.replace('{"stream":"Successfully built', '').replace('\\n"}', '')
+        else:
+            self.logger.error('Failed to build')
         return {'Id': imageid, 'Repository': imagename}
 
 
@@ -133,4 +141,10 @@ if __name__ == '__main__':
 
     # print dockerc.images(name='koide')
     # self.logger.info(commands.getoutput('pwd'))
-
+    # res = dockerc.build(image='ubuntu:14.04', app='', port='80',
+    #         command='"/usr/sbin/apache2", "-D", "FOREGROUND"',
+    #         imagename='koide/test_apache2')
+    # response = [line for line in res]
+    # for r in res:
+    #     dockerc.logger.info(r)
+    # dockerc.logger.info(list(res)[-1])

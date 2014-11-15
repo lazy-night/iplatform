@@ -1,4 +1,4 @@
-FROM ${image}
+FROM ubuntu:14.04
 
 MAINTAINER koide
 
@@ -14,8 +14,8 @@ ENV APACHE_RUN_DIR /var/run/apache2
 ENV APACHE_LOG_DIR /var/log/apache2
 ENV APACHE_LOCK_DIR /var/lock/apache2
 
-${app}
 
-EXPOSE ${port}
 
-CMD [${command}]
+EXPOSE 80
+
+CMD ["/usr/sbin/apache2", "-D", "FOREGROUND"]
