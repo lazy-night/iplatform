@@ -12,7 +12,7 @@ class TestDockerClient(unittest.TestCase):
     def test_containers(self):
         print '[TestDockerClient.test_containers()]'
         print '[self.dockerc.containers()]' + str(self.dockerc.containers())
-        assert len(self.dockerc.containers(name='koide')) > 0
+        assert len(self.dockerc.containers(name='koide')) == 0
 
 
     def test_images(self):
@@ -22,36 +22,40 @@ class TestDockerClient(unittest.TestCase):
 
 
     def test_build(self):
-        print '[TestDockerClient.build()]'
+        print '[TestDockerClient.test_build()]'
         result = self.dockerc.build(
             image='ubuntu:14.04', app='', port='80',
             command='"/usr/sbin/apache2", "-D", "FOREGROUND"',
-            imagename='koide/test_apache2')
+            tag='koide/test_apache2')
         assert len(self.dockerc.images(name='koide')) > 2
 
 
-# class TestDockerClient:
-# 
-#     def __init__(self):
-#         print '[TestDockerClient.__init__]'
-#         self.dockerc = dockerclient.DockerClient()
-# 
-# #     def build(self, path=None, tag=None, quiet=False, fileobj=None,
-# #         nocache=False, rm=False, stream=False,
-# #         timeout=None, custom_context=False, encoding=None):
-# #         print '[DockerClient.build]'
-# #         print '[TODO]'
-# #         return 'test'
-# 
-# #     def create_container(self, image, command=None, hostname=None, user=None,
-# #         detach=False, stdin_open=False, tty=False, mem_limit=0,
-# #         ports=None, environment=None, dns=None, volumes=None,
-# #         volumes_from=None, network_disabled=False, name=None,
-# #         entrypoint=None, cpu_shares=None, working_dir=None,
-# #         memswap_limit=0):
-# #         print '[DockerClient.create_containers]'
-# #         print '[TODO]'
-# #         return 'test'
+    def test_create_container(self):
+        print '[TestDockerClient.test_create_container()]'
+        image = 'koide/test_apache2'
+        ports = [80]
+        result = self.dockerc.create_container(image=image, ports=ports)
+        assert len(self.dockerc.containers(name='koide', all=True)) > 0
+
+
+    def test_start(self):
+        print '[TestDockerClient.test_start()]'
+        tag = 'koide/test_apache2'
+        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
+            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+            tag=tag)
+        ports = [80]
+        container = self.dockerc.create_container(image=tag, ports=ports)
+        port_bindings={80 : None}
+        self.dockerc.start(container=container, port_bindings=port_bindings)
+        assert len(self.dockerc.containers(name='koide')) > 0
+
+
+    def tearDown(self):
+        print '[TODO]'
+        # kill and remove containers
+
+
 # 
 # #     def pull(self, repository, tag=None, stream=False):
 # #         print '[DockerClient.pull]'
@@ -65,14 +69,6 @@ class TestDockerClient(unittest.TestCase):
 # 
 # #     def remove_image(self, image):
 # #         print '[DockerClient.remove_image]'
-# #         print '[TODO]'
-# #         return 'test'
-# 
-# #     def start(self, container, binds=None, port_bindings=None, lxc_conf=None,
-# #         publish_all_ports=False, links=None, privileged=False,
-# #         dns=None, dns_search=None, volumes_from=None,
-# #         network_mode=None, restart_policy=None):
-# #         print '[DockerClient.start]'
 # #         print '[TODO]'
 # #         return 'test'
 # 

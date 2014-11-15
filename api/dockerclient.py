@@ -32,7 +32,7 @@ class DockerClient:
             self.logger.error('Exception as e:' + str(e))
 
 
-    def build(self, image, app, port, command, imagename):
+    def build(self, image, app, port, command, tag):
         self.logger.info('[DockerClient.build]')
         workpath = './api/workspace'
         templatepath = './api/template/Dockerfile.template'
@@ -51,7 +51,7 @@ class DockerClient:
         # copy conf directory
         # shutil.copytree('conf',os.path.join(workpath, 'conf'))
 
-        result = self.dockerc.build(path=workpath, tag=imagename, rm=True)
+        result = self.dockerc.build(path=workpath, tag=tag, rm=True)
         result = list(result)[-1]
         self.logger.info(result)
 
@@ -60,7 +60,7 @@ class DockerClient:
             imageid = result.replace('{"stream":"Successfully built', '').replace('\\n"}', '')
         else:
             self.logger.error('Failed to build')
-        return {'Id': imageid, 'Repository': imagename}
+        return {'Id': imageid, 'Repository': tag}
 
 
 #     def commit(self, container, repository=None, tag=None, message=None, author=None, conf=None):
@@ -71,7 +71,9 @@ class DockerClient:
     def containers(self, name=None, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
         self.logger.info('[DockerClient.containers]')
-        containers = self.dockerc.containers()
+        containers = self.dockerc.containers(all=all)
+        if all:
+            return containers
         res = []
         if name:
             for c in [cs for cs in containers if name in cs['Image']]:
@@ -84,14 +86,11 @@ class DockerClient:
         return res
 
 
-    def create_container(self, image, command=None, hostname=None, user=None,
-        detach=False, stdin_open=False, tty=False, mem_limit=0,
-        ports=None, environment=None, dns=None, volumes=None,
-        volumes_from=None, network_disabled=False, name=None,
-        entrypoint=None, cpu_shares=None, working_dir=None,
-        memswap_limit=0):
-        print '[DockerClient.create_containers]'
-        return self.dockerc.createcontainer(image=image, ports=ports)
+    def create_container(self, image, ports=None):
+        self.logger.info('[DockerClient.create_containers]')
+        container = self.dockerc.create_container(image=image, ports=ports)
+        self.logger.info(container)
+        return container['Id']
 
 
     def images(self, name=None, quiet=False, all=False, viz=False):
@@ -122,11 +121,9 @@ class DockerClient:
         return self.dockerc.remove_image(image=image)
 
 
-    def start(self, container, binds=None, port_bindings=None, lxc_conf=None,
-        publish_all_ports=False, links=None, privileged=False,
-        dns=None, dns_search=None, volumes_from=None, network_mode=None, restart_policy=None):
-        print '[DockerClient.start]'
-        return self.dockerc.start(container=container, port_bindings=port_bindings)
+    def start(self, container, port_bindings=None):
+        self.logger.info('[DockerClient.start]')
+        self.dockerc.start(container=container, port_bindings=port_bindings)
 
 
     def stop(self, container, timeout=10):
@@ -135,16 +132,4 @@ class DockerClient:
 
 
 if __name__ == '__main__':
-    # logging.config.fileConfig('logger_config.ini')
-    # logger = logging.getLogger(__name__)
     dockerc = DockerClient()
-
-    # print dockerc.images(name='koide')
-    # self.logger.info(commands.getoutput('pwd'))
-    # res = dockerc.build(image='ubuntu:14.04', app='', port='80',
-    #         command='"/usr/sbin/apache2", "-D", "FOREGROUND"',
-    #         imagename='koide/test_apache2')
-    # response = [line for line in res]
-    # for r in res:
-    #     dockerc.logger.info(r)
-    # dockerc.logger.info(list(res)[-1])
