@@ -1,10 +1,15 @@
+import commands
 import docker
+import logging
+import logging.config
 
 
 class DockerClient:
 
     def __init__(self):
-        print '[DockerClient.__init__]'
+        logging.config.fileConfig('./api/logger_config.ini')
+        self.logger = logging.getLogger(__name__)
+        self.logger.info('[DockerClient.__init__]')
         try:
             self.dockerc = docker.Client(
                 ## default
@@ -18,18 +23,36 @@ class DockerClient:
                 timeout=10
             )
         except Exception as e:
-            print '=== output error ==='
-            print 'type:' + str(type(e))
-            print 'args:' + str(e.args)
-            print 'message:' + e.message
-            print 'Exception as e:' + str(e)
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + e.message)
+            self.logger.error('Exception as e:' + str(e))
 
 
     def build(self, path=None, tag=None, quiet=False, fileobj=None,
         nocache=False, rm=False, stream=False,
         timeout=None, custom_context=False, encoding=None):
-        print '[DockerClient.build]'
-        return self.dockerc.build(path=path, tag=tag)
+        self.logger.info('[DockerClient.build]')
+        # return self.dockerc.build(path=path, tag=tag)
+        workpath = '/var/data'
+        values = {}
+        values['name'] = 'name'
+        values['host'] = 'host'
+
+        with open('Dockerfile.template', 'rt') as templatef:
+            template = Template(templatef.read())
+            converted = template.substitute(values)
+            with open(os.path.join(workpath, 'Dockerfile'), 'wt') as dockerfilef:
+                dockerfilef.write(converted)
+
+        # copy conf directory
+        shutil.copytree('conf',os.path.join(workpath, 'conf'))
+
+        imagename = 'imagename'
+        imageid, result = dockerc.build(path=workpath, tag=imagename, rm=True)
+        if not imageid: logging.error('Failed to build: ' + str(result))
+        return {'Id': imageid, 'Repository': imagename}
 
 
 #     def commit(self, container, repository=None, tag=None, message=None, author=None, conf=None):
@@ -39,7 +62,7 @@ class DockerClient:
 
     def containers(self, name=None, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
-        print '[DockerClient.containers]'
+        self.logger.info('[DockerClient.containers]')
         containers = self.dockerc.containers()
         res = []
         if name:
@@ -64,7 +87,7 @@ class DockerClient:
 
 
     def images(self, name=None, quiet=False, all=False, viz=False):
-        print '[DockerClient.images]'
+        self.logger.info('[DockerClient.images]')
         images = self.dockerc.images()
         res = []
         if name:
@@ -77,7 +100,7 @@ class DockerClient:
 
 
     def pull(self, repository, tag=None, stream=False):
-        print '[DockerClient.pull]'
+        self.logger.info('[DockerClient.pull]')
         return self.dockerc.pull(repository=repository, tag=tag)
 
 
@@ -104,5 +127,10 @@ class DockerClient:
 
 
 if __name__ == '__main__':
+    # logging.config.fileConfig('logger_config.ini')
+    # logger = logging.getLogger(__name__)
     dockerc = DockerClient()
+
     # print dockerc.images(name='koide')
+    # self.logger.info(commands.getoutput('pwd'))
+
