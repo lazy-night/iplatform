@@ -63,11 +63,6 @@ class DockerClient:
         return {'Id': imageid, 'Repository': tag}
 
 
-#     def commit(self, container, repository=None, tag=None, message=None, author=None, conf=None):
-#         print '[DockerClient.commit]'
-#         print '[TODO]'
-
-
     def containers(self, name=None, quiet=False, all=False, trunc=True,
         latest=False, since=None, before=None, limit=-1):
         self.logger.info('[DockerClient.containers]')
@@ -114,23 +109,36 @@ class DockerClient:
         return res
 
 
-    def pull(self, repository, tag=None, stream=False):
-        self.logger.info('[DockerClient.pull]')
-        return self.dockerc.pull(repository=repository, tag=tag)
-
-
-    def remove_container(self, container, v=False, link=False):
-        print '[DockerClient.remove_container]'
-        return self.dockerc.remove_container(container=container)
+    def remove_container(self, container):
+        self.logger.info('[DockerClient.remove_container()]')
+        try:
+            self.dockerc.remove_container(container=container)
+            return True
+        except Exception as e:
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + str(e.message))
+            self.logger.error('Exception as e:' + str(e))
+        return False
 
 
     def remove_image(self, image):
-        print '[DockerClient.remove_image]'
-        return self.dockerc.remove_image(image=image)
+        self.logger.info('[DockerClient.remove_image()]')
+        try:
+            self.dockerc.remove_image(image=image)
+            return True
+        except Exception as e:
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + str(e.message))
+            self.logger.error('Exception as e:' + str(e))
+        return False
 
 
     def start(self, container, port_bindings=None):
-        self.logger.info('[DockerClient.start]')
+        self.logger.info('[DockerClient.start()]')
         try:
             self.dockerc.start(container=container, port_bindings=port_bindings)
             return True
@@ -143,10 +151,18 @@ class DockerClient:
         return False
 
 
-    def stop(self, container, timeout=10):
-        print '[DockerClient.stop]'
-        return self.dockerc.stop(container=container)
-
+    def stop(self, container):
+        self.logger.info('[DockerClient.stop()]')
+        try:
+            self.dockerc.stop(container=container)
+            return True
+        except Exception as e:
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + str(e.message))
+            self.logger.error('Exception as e:' + str(e))
+        return False
 
 if __name__ == '__main__':
     dockerc = DockerClient()

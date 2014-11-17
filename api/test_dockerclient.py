@@ -59,28 +59,45 @@ class TestDockerClient(unittest.TestCase):
         assert len(self.dockerc.containers(name='koide')) > 0
 
 
+    def test_stop(self):
+        print '[TestDockerClient.test_stop()]'
+        tag = 'koide/test_apache2'
+        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
+            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+            tag=tag)
+        ports = [80]
+        container = self.dockerc.create_container(image=tag, ports=ports)
+        port_bindings={80 : None}
+        self.dockerc.start(container=container, port_bindings=port_bindings)
+        before = len(self.dockerc.containers(name='koide'))
+        self.dockerc.stop(container=container)
+        after = len(self.dockerc.containers(name='koide'))
+        assert  before != after
+
+
+    def test_remove_container(self):
+        print '[TestDockerClient.test_remove_container()]'
+        tag = 'koide/test_apache2'
+        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
+            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+            tag=tag)
+        ports = [80]
+        container = self.dockerc.create_container(image=tag, ports=ports)
+        port_bindings={80 : None}
+        self.dockerc.start(container=container, port_bindings=port_bindings)
+        self.dockerc.stop(container=container)
+        before = len(self.dockerc.containers(all=True))
+        self.dockerc.remove_container(container=container)
+        after = len(self.dockerc.containers(all=True))
+        assert  before != after
+
+
+    def test_remove_image(self):
+        print '[TestDockerClient.test_remove_image()]'
+        print '[TODO]'
+        assert True
+
+
     def tearDown(self):
         print '[TODO]'
         # kill and remove containers
-
-
-# 
-# #     def pull(self, repository, tag=None, stream=False):
-# #         print '[DockerClient.pull]'
-# #         print '[TODO]'
-# #         return 'test'
-# 
-# #     def remove_container(self, container, v=False, link=False):
-# #         print '[DockerClient.remove_container]'
-# #         print '[TODO]'
-# #         return 'test'
-# 
-# #     def remove_image(self, image):
-# #         print '[DockerClient.remove_image]'
-# #         print '[TODO]'
-# #         return 'test'
-# 
-# #     def stop(self, container, timeout=10):
-# #         print '[DockerClient.stop]'
-# #         print '[TODO]'
-# #         return 'test'
