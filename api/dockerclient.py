@@ -28,7 +28,7 @@ class DockerClient:
             self.logger.error('=== output error ===')
             self.logger.error('type:' + str(type(e)))
             self.logger.error('args:' + str(e.args))
-            self.logger.error('message:' + e.message)
+            self.logger.error('message:' + str(e.message))
             self.logger.error('Exception as e:' + str(e))
 
 
@@ -88,9 +88,17 @@ class DockerClient:
 
     def create_container(self, image, ports=None):
         self.logger.info('[DockerClient.create_containers]')
-        container = self.dockerc.create_container(image=image, ports=ports)
-        self.logger.info(container)
-        return container['Id']
+        try:
+            container = self.dockerc.create_container(image=image, ports=ports)
+            self.logger.info(container)
+            return container['Id']
+        except Exception as e:
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + str(e.message))
+            self.logger.error('Exception as e:' + str(e))
+        return None
 
 
     def images(self, name=None, quiet=False, all=False, viz=False):
@@ -123,7 +131,16 @@ class DockerClient:
 
     def start(self, container, port_bindings=None):
         self.logger.info('[DockerClient.start]')
-        self.dockerc.start(container=container, port_bindings=port_bindings)
+        try:
+            self.dockerc.start(container=container, port_bindings=port_bindings)
+            return True
+        except Exception as e:
+            self.logger.error('=== output error ===')
+            self.logger.error('type:' + str(type(e)))
+            self.logger.error('args:' + str(e.args))
+            self.logger.error('message:' + str(e.message))
+            self.logger.error('Exception as e:' + str(e))
+        return False
 
 
     def stop(self, container, timeout=10):
