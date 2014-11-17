@@ -38,6 +38,14 @@ class TestDockerClient(unittest.TestCase):
         assert len(self.dockerc.containers(name='koide', all=True)) > 0
 
 
+    def test_create_container_error_of_not_image(self):
+        print '[TestDockerClient.test_create_container()]'
+        image = 'koide/error'
+        ports = [80]
+        result = self.dockerc.create_container(image=image, ports=ports)
+        assert result == None
+
+
     def test_start(self):
         print '[TestDockerClient.test_start()]'
         tag = 'koide/test_apache2'

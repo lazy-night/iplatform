@@ -82,9 +82,25 @@ def index():
 
 @app.route('/launch', methods=['POST'])
 def launch():
+    result = False
     if request.method == 'POST':
-        print 'TODO'
+        # print 'TODO'
         inputdata = request.json
-        inputdata = {'name' : 'testn', 'user' : 'testu', 'app': 'testa', 'image' : 'testi'}
-    result = 'success' # or 'failure'
+        # inputdata = {'name' : 'koide/apache2', 'user' : 'koide', 'app': '', 'image' : 'ubuntu:14.04'}
+        image='ubuntu:14.04'
+        app=''
+        port = '80'
+        command = '"/usr/sbin/apache2", "-D", "FOREGROUND"'
+        tag = 'koide/test_apache2'
+
+        dockerc = DockerClient()
+        dicimage = dockerc.build(
+            image=image, app=app, port=port,
+            command=command, tag=tag
+        ) # {'Id': imageid, 'Repository': tag}
+        container_id = dockerc.create_container(image=tag, ports=[int(port)])
+        result = dockerc.start(
+            container=container_id,
+            port_bindings={int(port) : None}
+        ) # True or False
     return json.dumps({ 'result' : result })
