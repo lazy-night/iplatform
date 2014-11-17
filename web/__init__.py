@@ -84,7 +84,6 @@ def index():
 def launch():
     result = False
     if request.method == 'POST':
-        # print 'TODO'
         inputdata = request.json
         # inputdata = {'name' : 'koide/apache2', 'user' : 'koide', 'app': '', 'image' : 'ubuntu:14.04'}
         image='ubuntu:14.04'
@@ -104,3 +103,34 @@ def launch():
             port_bindings={int(port) : None}
         ) # True or False
     return json.dumps({ 'result' : result })
+
+
+@app.route('/delete_containers', methods=['POST'])
+def delete_containers():
+    result = False
+    if request.method == 'POST':
+        containers_id = request.json
+        # containers_id=['aaaaa', 'bbbbb']
+        dockerc = DockerClient()
+
+        result = {}
+        for cid in containers_id:
+            res = False
+            if dockerc.stop(container=cid) and dockerc.remove_container(container=cid):
+                res = True
+            result[cid] = res
+    return json.dumps(result)
+
+
+@app.route('/delete_images', methods=['POST'])
+def delete_images():
+    result = False
+    if request.method == 'POST':
+        images = request.json
+        # images=['koide/aaaaa', 'koide/bbbbb']
+        dockerc = DockerClient()
+
+        result = {}
+        for img in images:
+            result[img] = dockerc.remove_image(image=img)
+    return json.dumps(result)
