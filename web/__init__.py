@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 
+import json
 from functools import wraps
 from flask import Flask, render_template, session, g, \
                   request, redirect, url_for, flash
@@ -69,6 +70,7 @@ def logout():
 def container():
     name = g.user.name
     dockerc = DockerClient()
+    images = dockerc.images(name=name)
     containers = dockerc.containers(name=name)
     return render_template('containers.html', **locals())
 
@@ -76,3 +78,59 @@ def container():
 @app.route('/')
 def index():
     return render_template('index.html', **locals())
+
+
+@app.route('/launch', methods=['POST'])
+def launch():
+    result = False
+    if request.method == 'POST':
+        inputdata = request.json
+        # inputdata = {'name' : 'koide/apache2', 'user' : 'koide', 'app': '', 'image' : 'ubuntu:14.04'}
+        image='ubuntu:14.04'
+        app=''
+        port = '80'
+        command = '"/usr/sbin/apache2", "-D", "FOREGROUND"'
+        tag = 'koide/test_apache2'
+
+        dockerc = DockerClient()
+        dicimage = dockerc.build(
+            image=image, app=app, port=port,
+            command=command, tag=tag
+        ) # {'Id': imageid, 'Repository': tag}
+        container_id = dockerc.create_container(image=tag, ports=[int(port)])
+        result = dockerc.start(
+            container=container_id,
+            port_bindings={int(port) : None}
+        ) # True or False
+    return json.dumps({ 'result' : result })
+
+
+@app.route('/delete_containers', methods=['POST'])
+def delete_containers():
+    result = False
+    if request.method == 'POST':
+        containers_id = request.json
+        # containers_id=['aaaaa', 'bbbbb']
+        dockerc = DockerClient()
+
+        result = {}
+        for cid in containers_id:
+            res = False
+            if dockerc.stop(container=cid) and dockerc.remove_container(container=cid):
+                res = True
+            result[cid] = res
+    return json.dumps(result)
+
+
+@app.route('/delete_images', methods=['POST'])
+def delete_images():
+    result = False
+    if request.method == 'POST':
+        images = request.json
+        # images=['koide/aaaaa', 'koide/bbbbb']
+        dockerc = DockerClient()
+
+        result = {}
+        for img in images:
+            result[img] = dockerc.remove_image(image=img)
+    return json.dumps(result)
