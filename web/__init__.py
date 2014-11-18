@@ -85,7 +85,7 @@ def launch():
     result = False
     if request.method == 'POST':
         inputdata = request.json
-        # inputdata = {'name' : 'koide/apache2', 'user' : 'koide', 'app': '', 'image' : 'ubuntu:14.04'}
+        # {'image ': 'ubuntu:14.04', 'port'  : [80], 'tag' : 'koide/test_apache2', 'app': 'apache2'})
         image='ubuntu:14.04'
         app=''
         port = '80'
