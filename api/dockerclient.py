@@ -35,7 +35,7 @@ class DockerClient:
     def build(self, image, app, port, command, tag):
         self.logger.info('[DockerClient.build]')
         workpath = './api/workspace'
-        templatepath = './api/template/Dockerfile.template'
+        templatepath = './api/Dockerfile/template/Dockerfile.template'
         values = {}
         values['image'] = image
         values['app'] = app
