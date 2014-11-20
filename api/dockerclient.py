@@ -63,8 +63,7 @@ class DockerClient:
         return {'Id': imageid, 'Repository': tag}
 
 
-    def containers(self, name=None, quiet=False, all=False, trunc=True,
-        latest=False, since=None, before=None, limit=-1):
+    def containers(self, name=None, quiet=False, all=False):
         self.logger.info('[DockerClient.containers]')
         containers = self.dockerc.containers(all=all)
         if all:
@@ -96,7 +95,7 @@ class DockerClient:
         return None
 
 
-    def images(self, name=None, quiet=False, all=False, viz=False):
+    def images(self, name=None, quiet=False, all=False):
         self.logger.info('[DockerClient.images]')
         images = self.dockerc.images()
         res = []
