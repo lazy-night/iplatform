@@ -1,4 +1,4 @@
-FROM ${image}
+FROM admin/apache2:ubuntu1404
 
 MAINTAINER koide
 
