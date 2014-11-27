@@ -85,22 +85,34 @@ def launch():
     result = False
     if request.method == 'POST':
         inputdata = request.json
-        # {'image ': 'ubuntu:14.04', 'port'  : [80], 'tag' : 'koide/test_apache2', 'app': 'apache2'}, 'id_rsa_pub': 'xxxxx')
-        image='ubuntu:14.04'
-        app='apache2'
-        port = [80]
-        id_rsa_pub = ''
-        tag = 'koide/test_apache2'
+        ### sample data ###
+        # image = 'ubuntu:14.04'
+        # app = 'apache2'
+        # port = [22, 80]
+        # id_rsa_pub = 'ssh-rsa xxxxx'
+        # tag = 'koide/test_apache2'
+        image = inputdata['image']
+        app = inputdata['app']
+        port = inputdata['port']
+        id_rsa_pub = = inputdata['id_rsa_pub']
+        tag = = inputdata['tag']
 
         dockerc = DockerClient()
         dicimage = dockerc.build(
             image=image, app=app, port=port,
             id_rsa_pub=id_rsa_pub, tag=tag
         ) # {'Id': imageid, 'Repository': tag}
-        container_id = dockerc.create_container(image=tag, ports=[int(port)])
+        container_id = dockerc.create_container(
+            image=tag,
+            command='/sbin/my_init',
+            ports=port
+        )
+        port_bindings = {}
+        for p in port:
+            port_bindings[p] = None
         result = dockerc.start(
             container=container_id,
-            port_bindings={int(port) : None}
+            port_bindings=port_bindings
         ) # True or False
     return json.dumps({ 'result' : result })
 
