@@ -4,6 +4,7 @@ import logging
 import logging.config
 import os
 from string import Template
+import datetime
 
 
 class DockerClient:
@@ -35,16 +36,18 @@ class DockerClient:
     def build(self, image, app, port, id_rsa_pub, tag):
         self.logger.info('[DockerClient.build]')
         workpath = './api/workspace'
-        templatepath = image.replace(':', '').replace('.', '')
-        templatepath = './api/Dockerfile/template/Dockerfile.template' + templatepath
+        ostag = image.replace(':', '').replace('.', '')
+        templatepath = './api/Dockerfile/template/Dockerfile.template.' + ostag
         values = {}
-        values['image'] = app
-        values['user'] = tag.split('/')[0]
+        values['IMAGE'] = app + ':' + ostag
+        values['USERNAME'] = tag.split('/')[0]
         port_str = ''
         for p in port:
             port_str = port_str + ' ' + str(p)
-        values['port'] = port_str
-        values['id_rsa_pub'] = id_rsa_pub
+        values['PORTS'] = port_str
+        values['ID_RSA_PUB'] = id_rsa_pub
+        d = datetime.datetime.today()
+        values['BUILD_TIME'] = d.strftime('%Y-%m-%d %H:%M:%S')
 
         with open(templatepath, 'rt') as templatef:
             template = Template(templatef.read())
@@ -78,16 +81,16 @@ class DockerClient:
                 dic = c
                 ports = []
                 for p in c['Ports']:
-                    ports.append(str(p['PublicPort']) + ' => ' + str(p['PrivatePort']))
+                    ports.append(str(p.get('PublicPort')) + ' => ' + str(p.get('PrivatePort')))
                 dic['Ports'] = ports
                 res.append(dic)
         return res
 
 
-    def create_container(self, image, ports=None):
+    def create_container(self, image, command, ports=None):
         self.logger.info('[DockerClient.create_containers]')
         try:
-            container = self.dockerc.create_container(image=image, ports=ports)
+            container = self.dockerc.create_container(image=image, command=command, ports=ports)
             self.logger.info(container)
             return container['Id']
         except Exception as e:
@@ -169,3 +172,4 @@ class DockerClient:
 
 if __name__ == '__main__':
     dockerc = DockerClient()
+    cs = dockerc.containers(name='test')
