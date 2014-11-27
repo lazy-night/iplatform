@@ -2,7 +2,7 @@ FROM admin/base:ubuntu1404
 
 MAINTAINER koide
 
-RUN apt-get -y update
+RUN apt-get -y update --fix-missing
 RUN apt-get -y install apache2
 
 ENV APACHE_RUN_USER www-data

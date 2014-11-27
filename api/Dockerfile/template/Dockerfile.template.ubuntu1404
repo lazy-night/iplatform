@@ -1,17 +1,17 @@
 # placeholder:
-#  image, user, port, id_rsa_pub
-FROM ${image}
+#  IMAGE, USERNAME, PORTS, ID_RSA_PUB, BUILD_TIME
+# images(20141127):
+#  admin/apache2, admin/jenkins
+FROM admin/${IMAGE}
 
 MAINTAINER koide
 
 # Setting root
-# ADD ./id_rsa.pub /tmp/your_key
-RUN echo ${id_rsa_pub} > /tmp/your_key
+RUN echo ${ID_RSA_PUB} > /tmp/your_key
 RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && \
     chmod 600 /root/.ssh/authorized_keys
 
 # Add user
-ENV USERNAME ${user}
 RUN adduser --disabled-password --gecos '' ${USERNAME}
 RUN mkdir -m 700 /home/${USERNAME}/.ssh && \
     chown ${USERNAME}:${USERNAME} /home/${USERNAME}/.ssh
@@ -22,7 +22,7 @@ RUN echo '${USERNAME} ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
     echo '${USERNAME}:${USERNAME}' | chpasswd
 RUN chown -R ${USERNAME}:${USERNAME} /home/${USERNAME}/
 
-# EXPOSE ${port}
-EXPOSE 22 ${port}
+EXPOSE ${PORTS}
 CMD ['/sbin/my_init']
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN echo '${BUILD_TIME}'
