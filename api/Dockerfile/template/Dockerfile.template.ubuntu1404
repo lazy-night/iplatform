@@ -1,6 +1,8 @@
 # placeholder:
 #  image, user, port, id_rsa_pub
-FROM ${image}
+# images(20141127):
+#  admin/apache2, admin/jenkins
+FROM admin/${image}
 
 MAINTAINER koide
 

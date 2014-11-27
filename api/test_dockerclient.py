@@ -24,8 +24,8 @@ class TestDockerClient(unittest.TestCase):
     def test_build(self):
         print '[TestDockerClient.test_build()]'
         result = self.dockerc.build(
-            image='ubuntu:14.04', app='', port='80',
-            command='"/usr/sbin/apache2", "-D", "FOREGROUND"',
+            image='ubuntu:14.04', app='apache2', port=[80],
+            id_rsa_pub='xxxxx',
             tag='koide/test_apache2')
         assert len(self.dockerc.images(name='koide')) > 2
 
@@ -49,8 +49,8 @@ class TestDockerClient(unittest.TestCase):
     def test_start(self):
         print '[TestDockerClient.test_start()]'
         tag = 'koide/test_apache2'
-        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
-            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+        res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
+            id_rsa_pub='xxxxx',
             tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)
@@ -62,8 +62,8 @@ class TestDockerClient(unittest.TestCase):
     def test_stop(self):
         print '[TestDockerClient.test_stop()]'
         tag = 'koide/test_apache2'
-        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
-            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+        res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
+            id_rsa_pub='xxxxx',
             tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)
@@ -78,8 +78,8 @@ class TestDockerClient(unittest.TestCase):
     def test_remove_container(self):
         print '[TestDockerClient.test_remove_container()]'
         tag = 'koide/test_apache2'
-        res = self.dockerc.build(image='ubuntu:14.04', app='', port='80',
-            command='"/usr/sbin/apache2ctl", "-D", "FOREGROUND"',
+        res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
+            id_rsa_pub='xxxxx',
             tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)

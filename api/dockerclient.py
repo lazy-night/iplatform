@@ -32,15 +32,19 @@ class DockerClient:
             self.logger.error('Exception as e:' + str(e))
 
 
-    def build(self, image, app, port, command, tag):
+    def build(self, image, app, port, id_rsa_pub, tag):
         self.logger.info('[DockerClient.build]')
         workpath = './api/workspace'
-        templatepath = './api/Dockerfile/template/Dockerfile.template'
+        templatepath = image.replace(':', '').replace('.', '')
+        templatepath = './api/Dockerfile/template/Dockerfile.template' + templatepath
         values = {}
-        values['image'] = image
-        values['app'] = app
-        values['port'] = port
-        values['command'] = command
+        values['image'] = app
+        values['user'] = tag.split('/')[0]
+        port_str = ''
+        for p in port:
+            port_str = port_str + ' ' + str(p)
+        values['port'] = port_str
+        values['id_rsa_pub'] = id_rsa_pub
 
         with open(templatepath, 'rt') as templatef:
             template = Template(templatef.read())
