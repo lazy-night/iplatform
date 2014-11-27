@@ -15,7 +15,7 @@
   vm = new Vue({
     el: '#vue-container',
     data: {
-      header: "Create docker container",
+      header: "List docker containers",
       launch: false,
       dashboard: true,
       graph: false,
@@ -99,6 +99,32 @@
 
   $('#img-settings').click(function() {
     return vm.activate_settings();
+  });
+
+  $(function() {
+    return $('.dropdown-menu a').click(function() {
+      var hiddenTag, visibleTag;
+      visibleTag = $(this).parents('ul').attr('visibleTag');
+      hiddenTag = $(this).parents('ul').attr('hiddenTag');
+      $(visibleTag).html($(this).attr('value'));
+      return $(hiddenTag).val($(this).attr('value'));
+    });
+  });
+
+  $('#container-name').keyup(function() {
+    var cc;
+    cc = $('#create-container');
+    if ($(this).val()) {
+      cc.removeClass('btn-warning');
+      cc.addClass('btn-success');
+      cc.val('Launch');
+      return cc.removeAttr('disabled');
+    } else {
+      cc.removeClass('btn-success');
+      cc.addClass('btn-warning');
+      cc.val('Get ready');
+      return cc.attr('disabled', 'disabled');
+    }
   });
 
 }).call(this);

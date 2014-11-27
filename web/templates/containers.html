@@ -41,22 +41,22 @@
         <li id="nav-graph" v-class="active: graph"><a href="#">Analytics</a></li>
         <li id="nav-settings" v-class="active: settings"><a href="#">Setting</a></li>
       </ul>
-      <ul class="nav nav-sidebar">
+      <!--<ul class="nav nav-sidebar">-->
 		<!--body内はjinja2で生成 - ここには作業履歴とかかな...-->
-        <li><a href="">Nav item</a></li>
-        <li><a href="">Nav item again</a></li>
-        <li><a href="">One more nav</a></li>
-        <li><a href="">Another nav item</a></li>
-        <li><a href="">More navigation</a></li>
-      </ul>
-      <ul class="nav nav-sidebar">
-        <li><a href="">Nav item again</a></li>
-        <li><a href="">One more nav</a></li>
-        <li><a href="">Another nav item</a></li>
-      </ul>
+        <!--<li><a href="">Nav item</a></li>-->
+        <!--<li><a href="">Nav item again</a></li>-->
+        <!--<li><a href="">One more nav</a></li>-->
+		<!--<li><a href="">Another nav item</a></li>-->
+        <!--<li><a href="">More navigation</a></li>-->
+      <!--</ul>-->
+      <!--<ul class="nav nav-sidebar">-->
+        <!--<li><a href="">Nav item again</a></li>-->
+        <!--<li><a href="">One more nav</a></li>-->
+        <!--<li><a href="">Another nav item</a></li>-->
+      <!--</ul>-->
     </div>
     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-	  <h1 class="page-header">Your Platform</h1>
+		<h1 class="page-header">{{ name }}'s Platform</h1>
 
       <div class="row placeholders">
         <div class="col-xs-6 col-sm-3 placeholder">
@@ -81,40 +81,85 @@
         </div>
       </div>
 
-      <h2 v-text="header" class="sub-header">Containers</h2>
+	  <div class="jumbotron iplatform-jumbotron">
+        <h2 v-text="header" class="sub-header">Containers</h2>
+	  </div>
 
 	  <!--launch-->
 	  <div v-show="launch">
-		<form>
+		<form class="form-horizontal form-group-lg" role="form" style="max-width: 800px; margin: 0 auto;">
           <div class="row placeholders">
-		    <h3 class="page-header">Container's name</h3>
-			<input type="text">
+		    <h3 class="page-header">Container name</h3>
+			<input type="text" placeholder="Name" class="form-control" id="container-name">
 		  </div>
           <div class="row placeholders">
 		    <h3 class="page-header">Select OS</h3>
             <div class="col-xs-3 col-sm-2 placeholder">
-		  	<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/ubuntu.png') }}">
+			  <div style="width: 100px; text-align: center;">
+		  	    <img style="width: 80px; height: 80px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/ubuntu.svg') }}">
+			    <div>
+			      Ubuntu
+			    </div>
+			  </div>
+			  <div class="dropdown" style="width: 100px; text-align: center;">
+			    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+			      <span id="visibleValue">14.04</span>
+			  	<span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
+			  	  <li><a href="javascript:void(0)" value="14.04">l4.04</a></li>
+			      <li><a href="javascript:void(0)" value="12.04">l2.04</a></li>
+			    </ul>
+			  </div>
             </div>
-            <!--<div class="col-xs-3 col-sm-2 placeholder">-->
-			  <!--<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/centos.png') }}">-->
-            <!--</div>-->
-            <!--<div class="col-xs-3 col-sm-2 placeholder">-->
-			  <!--<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/fedora.png') }}">-->
-            <!--</div>-->
-            <!--<div class="col-xs-3 col-sm-2 placeholder">-->
-			  <!--<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/arch.png') }}">-->
-            <!--</div>-->
+			<div class="col-xs-3 col-sm-2 placeholder" style="opacity: 0.2;">
+			  <div style="width: 100px; text-align: center;">
+		  	    <img style="width: 80px; height: 80px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/centos.svg') }}">
+			    <div>
+			      CentOS
+			    </div>
+			  </div>
+			  <div class="dropdown" style="width: 100px; text-align: center;">
+			    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
+			      <span id="visibleValue">7.0</span>
+			  	<span class="caret"></span>
+			    </button>
+			    <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
+			  	  <li><a href="javascript:void(0)" value="7.0">7.0</a></li>
+			      <li><a href="javascript:void(0)" value="6.5">6.5</a></li>
+			    </ul>
+			  </div>
+            </div>
           </div>
           <div class="row placeholders">
 		    <h3 class="page-header">Application</h3>
-            <div class="col-xs-3 col-sm-2 placeholder">
-		  	<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/jenkins.png') }}">
+            <div class="col-xs-4 col-sm-3 placeholder">
+		  	  <img style="width: 200px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/jenkins.svg') }}">
             </div>
-            <!--<div class="col-xs-3 col-sm-2 placeholder">-->
-			  <!--<img style="width: 140px; height: 140px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/gitlab.png') }}">-->
-            <!--</div>-->
+            <div class="col-xs-4 col-sm-3 placeholder" style="opacity: 0.2">
+		  	  <img style="width: 200px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/apache.png') }}">
+            </div>
           </div>
-		  <input type="submit" value="Create" id="create-container">
+          <div class="row placeholders">
+		    <h3 class="page-header">Ports</h3>
+			<input type="text" placeholder="Ports" value="8080" class="form-control">
+			<p class="help-block">Ports allow "Comma Separated Value". ex. 8080, 5000, 2222</p>
+			<p class="help-block">(*Default: 8080)</p>
+		  </div>
+          <div class="row placeholders">
+		    <h3 class="page-header">SSH key</h3>
+			<textarea placeholder="ssh key" class="form-control" rows="4"></textarea>
+			<p class="help-block">Paste here ssh key(*.pub)</p>
+			<p class="help-block">(*optional)</p>
+		  </div>
+          <div class="row placeholders">
+		    <h3 class="page-header">Mount volume</h3>
+			<input type="text" placeholder="path" class="form-control">
+			<p class="help-block">(*optional)</p>
+		  </div>
+          <div class="row placeholders">
+		    <input type="submit" value="Get ready" id="create-container" class="btn btn-warning" disabled="disabled">
+          </div>
 		</form>
       </div>
 

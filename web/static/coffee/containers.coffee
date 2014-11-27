@@ -8,7 +8,7 @@ $('.icon-btn').click ->
 vm = new Vue
     el: '#vue-container'
     data:
-        header: "Create docker container"
+        header: "List docker containers"
         launch: false
         dashboard: true
         graph: false
@@ -54,3 +54,47 @@ $('#img-launch').click -> vm.activate_launch()
 $('#img-dashboard').click -> vm.activate_dashborad()
 $('#img-graph').click -> vm.activate_graph()
 $('#img-settings').click -> vm.activate_settings()
+
+$ ->
+  $('.dropdown-menu a').click ->
+    visibleTag = $(this).parents('ul').attr('visibleTag')
+    hiddenTag = $(this).parents('ul').attr('hiddenTag')
+    $(visibleTag).html($(this).attr('value'))
+    $(hiddenTag).val($(this).attr('value'))
+
+$('#container-name').keyup ->
+  cc = $('#create-container')
+  if $(this).val()
+    cc.removeClass('btn-warning')
+    cc.addClass('btn-success')
+    cc.val('Launch')
+    cc.removeAttr('disabled')
+  else
+    cc.removeClass('btn-success')
+    cc.addClass('btn-warning')
+    cc.val('Get ready')
+    cc.attr('disabled', 'disabled')
+
+# get_image = () ->
+# 
+# get_app = () ->
+# 
+# get_port = () ->
+# 
+# get_sshkey = () ->
+# 
+# get_tag = () ->
+# 
+# $('#create-container').click ->
+#   data =
+#     image: get_image()
+#     app: get_app()
+#     port: get_port()
+#     id_rsa_pub: get_sshkey()
+#     tag: get_tag()
+# 
+#   $.ajax '/launch'
+#     type: 'post'
+#     data: data
+#     success: () ->
+#     error: () ->
