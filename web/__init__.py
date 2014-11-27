@@ -85,17 +85,17 @@ def launch():
     result = False
     if request.method == 'POST':
         inputdata = request.json
-        # {'image ': 'ubuntu:14.04', 'port'  : [80], 'tag' : 'koide/test_apache2', 'app': 'apache2'})
+        # {'image ': 'ubuntu:14.04', 'port'  : [80], 'tag' : 'koide/test_apache2', 'app': 'apache2'}, 'id_rsa_pub': 'xxxxx')
         image='ubuntu:14.04'
-        app=''
-        port = '80'
-        command = '"/usr/sbin/apache2", "-D", "FOREGROUND"'
+        app='apache2'
+        port = [80]
+        id_rsa_pub = ''
         tag = 'koide/test_apache2'
 
         dockerc = DockerClient()
         dicimage = dockerc.build(
             image=image, app=app, port=port,
-            command=command, tag=tag
+            id_rsa_pub=id_rsa_pub, tag=tag
         ) # {'Id': imageid, 'Repository': tag}
         container_id = dockerc.create_container(image=tag, ports=[int(port)])
         result = dockerc.start(

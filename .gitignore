@@ -5,3 +5,4 @@ node_modules
 *.map
 .sass-cache
 *.db
+id_rsa*
