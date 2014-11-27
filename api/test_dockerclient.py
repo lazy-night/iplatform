@@ -25,7 +25,7 @@ class TestDockerClient(unittest.TestCase):
         print '[TestDockerClient.test_build()]'
         result = self.dockerc.build(
             image='ubuntu:14.04', app='apache2', port=[80],
-            id_rsa_pub='xxxxx',
+            id_rsa_pub='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeCW+ZRJzU7Mh+dcvW3RZVMh7FDX15owZaKx/TtM3arztwjnYEh8es8Eg2VFiMMM5otE/sJRqqbXoOJaHvXbHU+V5XjBKJpPBMbH56n1Od6KkaOPywaSwmhgXkz/ElMIdQypBH7U1Ecwj4AKoawP/IwMPW3+TnkGbEeXFrvIB3W3hLiBZFUqnraxGKUh9kNsvUa4Y/ZwC5wSEkRCtYQnZ7u384LpPnLk3R7LVowVBj0KzM/AzANtRbqXxfP7GjS4e2xskbWcTOn5ESGQWciQAOtnQgrPELhrJYl1ruEINeckAHgeZOwhSiwGxkMfWvPAu3mMgCuHxPIC/dOLWZLruH',
             tag='koide/test_apache2')
         assert len(self.dockerc.images(name='koide')) > 2
 
@@ -50,8 +50,7 @@ class TestDockerClient(unittest.TestCase):
         print '[TestDockerClient.test_start()]'
         tag = 'koide/test_apache2'
         res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
-            id_rsa_pub='xxxxx',
-            tag=tag)
+            id_rsa_pub='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeCW+ZRJzU7Mh+dcvW3RZVMh7FDX15owZaKx/TtM3arztwjnYEh8es8Eg2VFiMMM5otE/sJRqqbXoOJaHvXbHU+V5XjBKJpPBMbH56n1Od6KkaOPywaSwmhgXkz/ElMIdQypBH7U1Ecwj4AKoawP/IwMPW3+TnkGbEeXFrvIB3W3hLiBZFUqnraxGKUh9kNsvUa4Y/ZwC5wSEkRCtYQnZ7u384LpPnLk3R7LVowVBj0KzM/AzANtRbqXxfP7GjS4e2xskbWcTOn5ESGQWciQAOtnQgrPELhrJYl1ruEINeckAHgeZOwhSiwGxkMfWvPAu3mMgCuHxPIC/dOLWZLruH', tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)
         port_bindings={80 : None}
@@ -63,7 +62,7 @@ class TestDockerClient(unittest.TestCase):
         print '[TestDockerClient.test_stop()]'
         tag = 'koide/test_apache2'
         res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
-            id_rsa_pub='xxxxx',
+            id_rsa_pub='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeCW+ZRJzU7Mh+dcvW3RZVMh7FDX15owZaKx/TtM3arztwjnYEh8es8Eg2VFiMMM5otE/sJRqqbXoOJaHvXbHU+V5XjBKJpPBMbH56n1Od6KkaOPywaSwmhgXkz/ElMIdQypBH7U1Ecwj4AKoawP/IwMPW3+TnkGbEeXFrvIB3W3hLiBZFUqnraxGKUh9kNsvUa4Y/ZwC5wSEkRCtYQnZ7u384LpPnLk3R7LVowVBj0KzM/AzANtRbqXxfP7GjS4e2xskbWcTOn5ESGQWciQAOtnQgrPELhrJYl1ruEINeckAHgeZOwhSiwGxkMfWvPAu3mMgCuHxPIC/dOLWZLruH',
             tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)
@@ -79,7 +78,7 @@ class TestDockerClient(unittest.TestCase):
         print '[TestDockerClient.test_remove_container()]'
         tag = 'koide/test_apache2'
         res = self.dockerc.build(image='ubuntu:14.04', app='apache2', port=[80],
-            id_rsa_pub='xxxxx',
+            id_rsa_pub='ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeCW+ZRJzU7Mh+dcvW3RZVMh7FDX15owZaKx/TtM3arztwjnYEh8es8Eg2VFiMMM5otE/sJRqqbXoOJaHvXbHU+V5XjBKJpPBMbH56n1Od6KkaOPywaSwmhgXkz/ElMIdQypBH7U1Ecwj4AKoawP/IwMPW3+TnkGbEeXFrvIB3W3hLiBZFUqnraxGKUh9kNsvUa4Y/ZwC5wSEkRCtYQnZ7u384LpPnLk3R7LVowVBj0KzM/AzANtRbqXxfP7GjS4e2xskbWcTOn5ESGQWciQAOtnQgrPELhrJYl1ruEINeckAHgeZOwhSiwGxkMfWvPAu3mMgCuHxPIC/dOLWZLruH',
             tag=tag)
         ports = [80]
         container = self.dockerc.create_container(image=tag, ports=ports)
