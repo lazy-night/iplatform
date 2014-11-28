@@ -1,5 +1,5 @@
 (function() {
-  var animate_css, vm;
+  var animate_css, get_app, get_image, get_port, get_sshkey, get_tag, vm;
 
   animate_css = function(jquery_elem, motion) {
     jquery_elem.addClass('animated ' + motion);
@@ -103,11 +103,11 @@
 
   $(function() {
     return $('.dropdown-menu a').click(function() {
-      var hiddenTag, visibleTag;
-      visibleTag = $(this).parents('ul').attr('visibleTag');
-      hiddenTag = $(this).parents('ul').attr('hiddenTag');
-      $(visibleTag).html($(this).attr('value'));
-      return $(hiddenTag).val($(this).attr('value'));
+      var u_hiddenTag, u_visibleTag;
+      u_visibleTag = $(this).parents('ul').attr('u_visibleTag');
+      u_hiddenTag = $(this).parents('ul').attr('u_hiddenTag');
+      $(u_visibleTag).html($(this).attr('value'));
+      return $(u_hiddenTag).val($(this).attr('value'));
     });
   });
 
@@ -125,6 +125,71 @@
       cc.val('Get ready');
       return cc.attr('disabled', 'disabled');
     }
+  });
+
+  $('.application').click(function() {
+    $('.application').each(function() {
+      return $(this).removeClass('enabled');
+    });
+    return $(this).addClass('enabled');
+  });
+
+  get_image = function() {
+    var os;
+    os = 'ubuntu';
+    return os + ':' + $('#u_visibleValue').text();
+  };
+
+  get_app = function() {
+    var app;
+    app = $('.application' + '.enabled');
+    return app.attr("alt");
+  };
+
+  get_port = function() {
+    var l, s, sl, _i, _len;
+    sl = $('#port').val().split(',');
+    l = [];
+    for (_i = 0, _len = sl.length; _i < _len; _i++) {
+      s = sl[_i];
+      l.push(Number(s));
+    }
+    return l;
+  };
+
+  get_sshkey = function() {
+    return $('#ssh-key').val();
+  };
+
+  get_tag = function() {
+    var user;
+    user = 'yano';
+    return user + '/' + $('#container-name').val();
+  };
+
+  $('#create-container').click(function() {
+    var d, js;
+    d = {
+      image: get_image(),
+      app: get_app(),
+      port: get_port(),
+      id_rsa_pub: get_sshkey(),
+      tag: get_tag()
+    };
+    js = JSON.stringify(d);
+    return $.ajax('/launch', {
+      type: 'post',
+      data: js,
+      contentType: "application/json",
+      success: function(status) {
+        alert('success');
+        return alert(status);
+      },
+      error: function(status) {
+        alert('error');
+        return alert(status);
+      }
+    });
   });
 
 }).call(this);

@@ -57,10 +57,10 @@ $('#img-settings').click -> vm.activate_settings()
 
 $ ->
   $('.dropdown-menu a').click ->
-    visibleTag = $(this).parents('ul').attr('visibleTag')
-    hiddenTag = $(this).parents('ul').attr('hiddenTag')
-    $(visibleTag).html($(this).attr('value'))
-    $(hiddenTag).val($(this).attr('value'))
+    u_visibleTag = $(this).parents('ul').attr('u_visibleTag')
+    u_hiddenTag = $(this).parents('ul').attr('u_hiddenTag')
+    $(u_visibleTag).html($(this).attr('value'))
+    $(u_hiddenTag).val($(this).attr('value'))
 
 $('#container-name').keyup ->
   cc = $('#create-container')
@@ -75,26 +75,48 @@ $('#container-name').keyup ->
     cc.val('Get ready')
     cc.attr('disabled', 'disabled')
 
-# get_image = () ->
-# 
-# get_app = () ->
-# 
-# get_port = () ->
-# 
-# get_sshkey = () ->
-# 
-# get_tag = () ->
-# 
-# $('#create-container').click ->
-#   data =
-#     image: get_image()
-#     app: get_app()
-#     port: get_port()
-#     id_rsa_pub: get_sshkey()
-#     tag: get_tag()
-# 
-#   $.ajax '/launch'
-#     type: 'post'
-#     data: data
-#     success: () ->
-#     error: () ->
+$('.application').click ->
+  $('.application').each( -> $(this).removeClass('enabled') )
+  $(this).addClass('enabled')
+
+get_image = () ->
+  os = 'ubuntu'
+  return os + ':' + $('#u_visibleValue').text()
+
+get_app = () ->
+  app = $('.application' + '.enabled')
+  return app.attr("alt")
+
+get_port = () ->
+  sl = $('#port').val().split(',')
+  l = []
+  for s in sl
+    l.push(Number(s))
+  return l
+
+get_sshkey = () ->
+  return $('#ssh-key').val()
+
+get_tag = () ->
+  user = 'yano'
+  return user + '/' + $('#container-name').val()
+
+$('#create-container').click ->
+  d =
+    image: get_image()
+    app: get_app()
+    port: get_port()
+    id_rsa_pub: get_sshkey()
+    tag: get_tag()
+  js = JSON.stringify(d)
+
+  $.ajax '/launch',
+    type: 'post'
+    data: js
+    contentType: "application/json"
+    success: (status) ->
+      alert('success')
+      alert(status)
+    error: (status) ->
+      alert('error')
+      alert(status)

@@ -103,62 +103,63 @@
 			  </div>
 			  <div class="dropdown" style="width: 100px; text-align: center;">
 			    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			      <span id="visibleValue">14.04</span>
+			      <span id="u_visibleValue">14.04</span>
 			  	<span class="caret"></span>
 			    </button>
-			    <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
+			    <ul class="dropdown-menu" role="menu" u_hiddenTag="#u_hiddenValue" u_visibleTag="#u_visibleValue">
 			  	  <li><a href="javascript:void(0)" value="14.04">l4.04</a></li>
-			      <li><a href="javascript:void(0)" value="12.04">l2.04</a></li>
+			      <li><a href="javascript:void(0)" value="13.10">l3.10</a></li>
 			    </ul>
 			  </div>
             </div>
-			<div class="col-xs-3 col-sm-2 placeholder" style="opacity: 0.2;">
-			  <div style="width: 100px; text-align: center;">
-		  	    <img style="width: 80px; height: 80px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/centos.svg') }}">
-			    <div>
-			      CentOS
-			    </div>
-			  </div>
-			  <div class="dropdown" style="width: 100px; text-align: center;">
-			    <button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">
-			      <span id="visibleValue">7.0</span>
-			  	<span class="caret"></span>
-			    </button>
-			    <ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">
-			  	  <li><a href="javascript:void(0)" value="7.0">7.0</a></li>
-			      <li><a href="javascript:void(0)" value="6.5">6.5</a></li>
-			    </ul>
-			  </div>
-            </div>
+			<!--TODO: DropDownが他のを切り替えてしまうバグあり(coffeescriptでも修正必要)-->
+			<!--<div class="col-xs-3 col-sm-2 placeholder" style="opacity: 0.2;">-->
+			  <!--<div style="width: 100px; text-align: center;">-->
+				  <!--<img style="width: 80px; height: 80px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/centos.svg') }}">-->
+				<!--<div>-->
+				  <!--CentOS-->
+				<!--</div>-->
+			  <!--</div>-->
+			  <!--<div class="dropdown" style="width: 100px; text-align: center;">-->
+				<!--<button class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false">-->
+				  <!--<span id="visibleValue">7.0</span>-->
+				  <!--<span class="caret"></span>-->
+				<!--</button>-->
+				<!--<ul class="dropdown-menu" role="menu" hiddenTag="#hiddenValue" visibleTag="#visibleValue">-->
+					<!--<li><a href="javascript:void(0)" value="7.0">7.0</a></li>-->
+				  <!--<li><a href="javascript:void(0)" value="6.5">6.5</a></li>-->
+				<!--</ul>-->
+			  <!--</div>-->
+            <!--</div>-->
           </div>
           <div class="row placeholders">
 		    <h3 class="page-header">Application</h3>
             <div class="col-xs-4 col-sm-3 placeholder">
-		  	  <img style="width: 200px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/jenkins.svg') }}">
+		  	  <img class='application enabled' style="width: 200px;" alt="apache2" src="{{ url_for('static', filename='img/apache.png') }}">
             </div>
-            <div class="col-xs-4 col-sm-3 placeholder" style="opacity: 0.2">
-		  	  <img style="width: 200px;" alt="Generic placeholder image" src="{{ url_for('static', filename='img/apache.png') }}">
+            <div class="col-xs-4 col-sm-3 placeholder">
+		  	  <img class='application' style="width: 200px;" alt="jenkins" src="{{ url_for('static', filename='img/jenkins.svg') }}">
             </div>
           </div>
           <div class="row placeholders">
 		    <h3 class="page-header">Ports</h3>
-			<input type="text" placeholder="Ports" value="8080" class="form-control">
+			<input type="text" placeholder="Ports" value="8080" class="form-control" id="port">
 			<p class="help-block">Ports allow "Comma Separated Value". ex. 8080, 5000, 2222</p>
 			<p class="help-block">(*Default: 8080)</p>
 		  </div>
           <div class="row placeholders">
 		    <h3 class="page-header">SSH key</h3>
-			<textarea placeholder="ssh key" class="form-control" rows="4"></textarea>
+			<textarea placeholder="ssh key" class="form-control" rows="6" id="ssh-key"></textarea>
 			<p class="help-block">Paste here ssh key(*.pub)</p>
 			<p class="help-block">(*optional)</p>
 		  </div>
           <div class="row placeholders">
 		    <h3 class="page-header">Mount volume</h3>
-			<input type="text" placeholder="path" class="form-control">
+			<input type="text" placeholder="path" class="form-control" id="mount-volume">
 			<p class="help-block">(*optional)</p>
 		  </div>
           <div class="row placeholders">
-		    <input type="submit" value="Get ready" id="create-container" class="btn btn-warning" disabled="disabled">
+		    <input value="Get ready" id="create-container" class="btn btn-warning" disabled="disabled">
           </div>
 		</form>
       </div>
