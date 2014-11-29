@@ -8,7 +8,7 @@ $('.icon-btn').click ->
 vm = new Vue
     el: '#vue-container'
     data:
-        header: "Create docker container"
+        header: "List docker containers"
         launch: false
         dashboard: true
         graph: false
@@ -54,3 +54,69 @@ $('#img-launch').click -> vm.activate_launch()
 $('#img-dashboard').click -> vm.activate_dashborad()
 $('#img-graph').click -> vm.activate_graph()
 $('#img-settings').click -> vm.activate_settings()
+
+$ ->
+  $('.dropdown-menu a').click ->
+    u_visibleTag = $(this).parents('ul').attr('u_visibleTag')
+    u_hiddenTag = $(this).parents('ul').attr('u_hiddenTag')
+    $(u_visibleTag).html($(this).attr('value'))
+    $(u_hiddenTag).val($(this).attr('value'))
+
+$('#container-name').keyup ->
+  cc = $('#create-container')
+  if $(this).val()
+    cc.removeClass('btn-warning')
+    cc.addClass('btn-success')
+    cc.val('Launch')
+    cc.removeAttr('disabled')
+  else
+    cc.removeClass('btn-success')
+    cc.addClass('btn-warning')
+    cc.val('Get ready')
+    cc.attr('disabled', 'disabled')
+
+$('.application').click ->
+  $('.application').each( -> $(this).removeClass('enabled') )
+  $(this).addClass('enabled')
+
+get_image = () ->
+  os = 'ubuntu'
+  return os + ':' + $('#u_visibleValue').text()
+
+get_app = () ->
+  app = $('.application' + '.enabled')
+  return app.attr("alt")
+
+get_port = () ->
+  sl = $('#port').val().split(',')
+  l = []
+  for s in sl
+    l.push(Number(s))
+  return l
+
+get_sshkey = () ->
+  return $('#ssh-key').val()
+
+get_tag = () ->
+  user = 'yano'
+  return user + '/' + $('#container-name').val()
+
+$('#create-container').click ->
+  d =
+    image: get_image()
+    app: get_app()
+    port: get_port()
+    id_rsa_pub: get_sshkey()
+    tag: get_tag()
+  js = JSON.stringify(d)
+
+  $.ajax '/launch',
+    type: 'post'
+    data: js
+    contentType: "application/json"
+    success: (status) ->
+      alert('success')
+      alert(status)
+    error: (status) ->
+      alert('error')
+      alert(status)

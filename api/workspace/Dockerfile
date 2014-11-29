@@ -7,22 +7,22 @@ FROM admin/apache2:ubuntu1404
 MAINTAINER koide
 
 # Setting root
-RUN echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDeCW+ZRJzU7Mh+dcvW3RZVMh7FDX15owZaKx/TtM3arztwjnYEh8es8Eg2VFiMMM5otE/sJRqqbXoOJaHvXbHU+V5XjBKJpPBMbH56n1Od6KkaOPywaSwmhgXkz/ElMIdQypBH7U1Ecwj4AKoawP/IwMPW3+TnkGbEeXFrvIB3W3hLiBZFUqnraxGKUh9kNsvUa4Y/ZwC5wSEkRCtYQnZ7u384LpPnLk3R7LVowVBj0KzM/AzANtRbqXxfP7GjS4e2xskbWcTOn5ESGQWciQAOtnQgrPELhrJYl1ruEINeckAHgeZOwhSiwGxkMfWvPAu3mMgCuHxPIC/dOLWZLruH > /tmp/your_key
+RUN echo ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCRXz9Bdi3lCDzgT2dASg/b22caVDPB7xeGhP16n4kNE2RahlW6fFchHka/fP7V7ZHFZInyqYRcXETKb2GNICv9bSwcmMWuzu1CVy20yEYwyG60CVEAt07T6HP29A07RtrKlWxaAxQMc1r+lJkMzQFHnjPb4jrDNZKko1uykAzZ10xwAp/4i3094eQl605J/EMJ2uP8uKZ2l9HuKRwoaqRP0gxqQC2kBoasiZG1MLEvlmZvtWS6KYhvJx10XsxoWltddI4YMTHE8gp5+tGkJ697z5Fa0PRLY3nlSbQUcivBCv4ejNgnMpcxj0W1+OjXs33swf5imUB83D3SV+SikRNV yano@pc-kusube.ipl.office > /tmp/your_key
 RUN cat /tmp/your_key >> /root/.ssh/authorized_keys && \
     chmod 600 /root/.ssh/authorized_keys
 
 # Add user
-RUN adduser --disabled-password --gecos '' test
-RUN mkdir -m 700 /home/test/.ssh && \
-    chown test:test /home/test/.ssh
-RUN cat /tmp/your_key >> /home/test/.ssh/authorized_keys && \
-    chmod 600 /home/test/.ssh/authorized_keys && \
+RUN adduser --disabled-password --gecos '' yano
+RUN mkdir -m 700 /home/yano/.ssh && \
+    chown yano:yano /home/yano/.ssh
+RUN cat /tmp/your_key >> /home/yano/.ssh/authorized_keys && \
+    chmod 600 /home/yano/.ssh/authorized_keys && \
     rm -f /tmp/your_key
-RUN echo 'test ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
-    echo 'test:test' | chpasswd
-RUN chown -R test:test /home/test/
+RUN echo 'yano ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers && \
+    echo 'yano:yano' | chpasswd
+RUN chown -R yano:yano /home/yano/
 
-EXPOSE 22  22 80 8080
+EXPOSE  22 80
 CMD ['/sbin/my_init']
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-RUN echo '2014-11-27 08:14:24'
+RUN echo '2014-11-28 02:57:13'

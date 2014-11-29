@@ -94,8 +94,8 @@ def launch():
         image = inputdata['image']
         app = inputdata['app']
         port = inputdata['port']
-        id_rsa_pub = = inputdata['id_rsa_pub']
-        tag = = inputdata['tag']
+        id_rsa_pub = inputdata['id_rsa_pub']
+        tag = inputdata['tag']
 
         dockerc = DockerClient()
         dicimage = dockerc.build(
