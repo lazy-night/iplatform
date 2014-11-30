@@ -42,8 +42,9 @@ class DockerClient:
         values['IMAGE'] = app + ':' + ostag
         values['USERNAME'] = tag.split('/')[0]
         port_str = ''
-        for p in port:
-            port_str = port_str + ' ' + str(p)
+        if port:
+            for p in port:
+                port_str = port_str + ' ' + str(p)
         values['PORTS'] = port_str
         values['ID_RSA_PUB'] = id_rsa_pub
         d = datetime.datetime.today()
