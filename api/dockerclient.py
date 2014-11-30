@@ -77,7 +77,7 @@ class DockerClient:
             return containers
         res = []
         if name:
-            for c in [cs for cs in containers if name in cs['Image']]:
+            for c in [cs for cs in containers if name == cs['Image'].split('/')[0]]:
                 dic = c
                 ports = []
                 for p in c['Ports']:
