@@ -93,13 +93,6 @@ def launch():
     result = False
     if request.method == 'POST':
         inputdata = request.json
-        ### sample data ###
-        # image = 'ubuntu:14.04'
-        # app = 'apache2'
-        # port = [22, 80]
-        # id_rsa_pub = 'ssh-rsa xxxxx'
-        # tag = 'koide/test_apache2'
-        print inputdata
         image = inputdata['image']
         app = inputdata['app']
         port, port_bindings = getPortAndPortbindings(inputdata['port'])
@@ -116,9 +109,6 @@ def launch():
             command='/sbin/my_init',
             ports=port
         )
-        #port_bindings = {}
-        #for p in port:
-        #    port_bindings[p] = None
         result = dockerc.start(
             container=container_id,
             port_bindings=port_bindings
