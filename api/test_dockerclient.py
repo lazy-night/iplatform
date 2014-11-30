@@ -103,7 +103,7 @@ class TestDockerClient(unittest.TestCase):
         assert len(self.dockerc.containers(name='test')) > 0
 
 
-    # @pytest.mark.skipif('"skip"')
+    @pytest.mark.skipif('"skip"')
     def test_start_noset_port_and_sshkey(self):
         print '[TestDockerClient.test_start_noset_port_and_sshkey()]'
         tag = 'test/test_noset_port_and_sshkey'

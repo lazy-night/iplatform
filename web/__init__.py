@@ -80,6 +80,14 @@ def index():
     return render_template('index.html', **locals())
 
 
+def getPortAndPortbindings(port):
+    if port == [0]:
+        return None, None
+    port_bindings = {}
+    for p in port:
+        port_bindings[p] = None
+    return port, port_bindings
+
 @app.route('/launch', methods=['POST'])
 def launch():
     result = False
@@ -91,9 +99,10 @@ def launch():
         # port = [22, 80]
         # id_rsa_pub = 'ssh-rsa xxxxx'
         # tag = 'koide/test_apache2'
+        print inputdata
         image = inputdata['image']
         app = inputdata['app']
-        port = inputdata['port']
+        port, port_bindings = getPortAndPortbindings(inputdata['port'])
         id_rsa_pub = inputdata['id_rsa_pub']
         tag = g.user.name + '/' + inputdata['tag']
 
@@ -107,9 +116,9 @@ def launch():
             command='/sbin/my_init',
             ports=port
         )
-        port_bindings = {}
-        for p in port:
-            port_bindings[p] = None
+        #port_bindings = {}
+        #for p in port:
+        #    port_bindings[p] = None
         result = dockerc.start(
             container=container_id,
             port_bindings=port_bindings
