@@ -16,7 +16,12 @@ This application is a PaaS. Use the docker, you can build a server environment w
 ## Usage
 
 # How to run server
-
+    $ cd api/Dockerfile/ubuntu14.04/base
+    $ docker build -t admin/base:ubuntu1404 .
+    $ cd api/Dockerfile/ubuntu14.04/apache2
+    $ docker build -t admin/apache2:ubuntu1404 .
+    $ cd api/Dockerfile/ubuntu14.04/jenkins
+    $ docker build -t admin/jenkins:ubuntu1404 .
     $ pip install -r requirements.txt
     $ python run.py
 
