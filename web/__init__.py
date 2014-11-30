@@ -91,7 +91,6 @@ def launch():
         # port = [22, 80]
         # id_rsa_pub = 'ssh-rsa xxxxx'
         # tag = 'koide/test_apache2'
-        print inputdata
         image = inputdata['image']
         app = inputdata['app']
         port = inputdata['port']
