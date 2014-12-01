@@ -98,8 +98,7 @@ get_sshkey = () ->
   return $('#ssh-key').val()
 
 get_tag = () ->
-  user = 'yano'
-  return user + '/' + $('#container-name').val()
+  return $('#container-name').val()
 
 $('#create-container').click ->
   d =
