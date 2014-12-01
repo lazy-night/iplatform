@@ -96,24 +96,25 @@ def launch():
         port = inputdata['port']
         id_rsa_pub = inputdata['id_rsa_pub']
         tag = inputdata['tag']
+        print(inputdata)
 
-        dockerc = DockerClient()
-        dicimage = dockerc.build(
-            image=image, app=app, port=port,
-            id_rsa_pub=id_rsa_pub, tag=tag
-        ) # {'Id': imageid, 'Repository': tag}
-        container_id = dockerc.create_container(
-            image=tag,
-            command='/sbin/my_init',
-            ports=port
-        )
-        port_bindings = {}
-        for p in port:
-            port_bindings[p] = None
-        result = dockerc.start(
-            container=container_id,
-            port_bindings=port_bindings
-        ) # True or False
+#        dockerc = DockerClient()
+#        dicimage = dockerc.build(
+#            image=image, app=app, port=port,
+#            id_rsa_pub=id_rsa_pub, tag=tag
+#        ) # {'Id': imageid, 'Repository': tag}
+#        container_id = dockerc.create_container(
+#            image=tag,
+#            command='/sbin/my_init',
+#            ports=port
+#        )
+#        port_bindings = {}
+#        for p in port:
+#            port_bindings[p] = None
+#        result = dockerc.start(
+#            container=container_id,
+#            port_bindings=port_bindings
+#        ) # True or False
     return json.dumps({ 'result' : result })
 
 

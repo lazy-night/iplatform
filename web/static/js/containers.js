@@ -182,12 +182,12 @@
       data: js,
       contentType: "application/json",
       success: function(status) {
-        alert('success');
-        return alert(status);
+        alert(status);
+        return location.reload();
       },
       error: function(status) {
-        alert('error');
-        return alert(status);
+        alert(status);
+        return location.reload();
       }
     });
   });

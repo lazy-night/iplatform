@@ -109,14 +109,27 @@ $('#create-container').click ->
     id_rsa_pub: get_sshkey()
     tag: get_tag()
   js = JSON.stringify(d)
+  #$('body').prepend("<div id='over'>")
+  #$('#over').fadeIn(200)
+  #$('spinner').removeClass('visible-false')
+  #$('spinner').addClass('visible-true')
+
 
   $.ajax '/launch',
     type: 'post'
     data: js
     contentType: "application/json"
     success: (status) ->
-      alert('success')
+      #alert('success')
       alert(status)
+      #$('#over').remove()
+      #$('spinner').removeClass('visible-true')
+      #$('spinner').addClass('visible-false')
+      location.reload();
     error: (status) ->
-      alert('error')
+      #alert('error')
       alert(status)
+      #$('#over').remove()
+      #$('spinner').removeClass('visible-true')
+      #$('spinner').addClass('visible-false')
+      location.reload();
