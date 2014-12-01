@@ -80,21 +80,24 @@ def index():
     return render_template('index.html', **locals())
 
 
+def getPortAndPortbindings(port):
+    if port == [0]:
+        return None, None
+    port_bindings = {}
+    for p in port:
+        port_bindings[p] = None
+    return port, port_bindings
+
 @app.route('/launch', methods=['POST'])
 def launch():
     result = False
     if request.method == 'POST':
         inputdata = request.json
-        ### sample data ###
-        # image = 'ubuntu:14.04'
-        # app = 'apache2'
-        # port = [22, 80]
-        # id_rsa_pub = 'ssh-rsa xxxxx'
-        # tag = 'koide/test_apache2'
         image = inputdata['image']
         app = inputdata['app']
-        port = inputdata['port']
+        port, port_bindings = getPortAndPortbindings(inputdata['port'])
         id_rsa_pub = inputdata['id_rsa_pub']
+<<<<<<< HEAD
         tag = inputdata['tag']
         print(inputdata)
 
@@ -115,6 +118,24 @@ def launch():
 #            container=container_id,
 #            port_bindings=port_bindings
 #        ) # True or False
+=======
+        tag = g.user.name + '/' + inputdata['tag']
+
+        dockerc = DockerClient()
+        dicimage = dockerc.build(
+            image=image, app=app, port=port,
+            id_rsa_pub=id_rsa_pub, tag=tag
+        ) # {'Id': imageid, 'Repository': tag}
+        container_id = dockerc.create_container(
+            image=tag,
+            command='/sbin/my_init',
+            ports=port
+        )
+        result = dockerc.start(
+            container=container_id,
+            port_bindings=port_bindings
+        ) # True or False
+>>>>>>> master
     return json.dumps({ 'result' : result })
 
 

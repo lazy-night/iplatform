@@ -42,8 +42,9 @@ class DockerClient:
         values['IMAGE'] = app + ':' + ostag
         values['USERNAME'] = tag.split('/')[0]
         port_str = ''
-        for p in port:
-            port_str = port_str + ' ' + str(p)
+        if port:
+            for p in port:
+                port_str = port_str + ' ' + str(p)
         values['PORTS'] = port_str
         values['ID_RSA_PUB'] = id_rsa_pub
         d = datetime.datetime.today()
@@ -77,7 +78,7 @@ class DockerClient:
             return containers
         res = []
         if name:
-            for c in [cs for cs in containers if name in cs['Image']]:
+            for c in [cs for cs in containers if name == cs['Image'].split('/')[0]]:
                 dic = c
                 ports = []
                 for p in c['Ports']:

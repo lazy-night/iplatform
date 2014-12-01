@@ -162,9 +162,7 @@
   };
 
   get_tag = function() {
-    var user;
-    user = 'yano';
-    return user + '/' + $('#container-name').val();
+    return $('#container-name').val();
   };
 
   $('#create-container').click(function() {

@@ -6,3 +6,4 @@ node_modules
 .sass-cache
 *.db
 id_rsa*
+api/workspace/Dockerfile

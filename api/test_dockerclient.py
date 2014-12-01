@@ -14,18 +14,21 @@ class TestDockerClient(unittest.TestCase):
         self.command = '/sbin/my_init'
 
 
+    @pytest.mark.skipif('"skip"')
     def test_containers(self):
         print '[TestDockerClient.test_containers()]'
         print '[self.dockerc.containers()]' + str(self.dockerc.containers())
         assert len(self.dockerc.containers(name='test')) == 0
 
 
+    @pytest.mark.skipif('"skip"')
     def test_images(self):
         print '[TestDockerClient.test_images()]'
         print '[self.dockerc.images()]' + str(self.dockerc.images())
         assert len(self.dockerc.images(name='test')) > 0
 
 
+    @pytest.mark.skipif('"skip"')
     def test_build(self):
         print '[TestDockerClient.test_build()]'
         tag = 'test/test_build_apache2'
@@ -44,6 +47,7 @@ class TestDockerClient(unittest.TestCase):
         assert result
 
 
+    @pytest.mark.skipif('"skip"')
     def test_create_container(self):
         print '[TestDockerClient.test_create_container()]'
         tag = 'test/test_build_apache2'
@@ -61,6 +65,7 @@ class TestDockerClient(unittest.TestCase):
         assert result
 
 
+    @pytest.mark.skipif('"skip"')
     def test_create_container_error_of_not_image(self):
         print '[TestDockerClient.test_create_container()]'
         tag = 'test/error'
@@ -73,6 +78,7 @@ class TestDockerClient(unittest.TestCase):
         assert result == None
 
 
+    @pytest.mark.skipif('"skip"')
     def test_start(self):
         print '[TestDockerClient.test_start()]'
         tag = 'test/test_start_stop_apache2'
@@ -97,6 +103,32 @@ class TestDockerClient(unittest.TestCase):
         assert len(self.dockerc.containers(name='test')) > 0
 
 
+    @pytest.mark.skipif('"skip"')
+    def test_start_noset_port_and_sshkey(self):
+        print '[TestDockerClient.test_start_noset_port_and_sshkey()]'
+        tag = 'test/test_noset_port_and_sshkey'
+        res = self.dockerc.build(
+            image=self.image,
+            app=self.app,
+            port=[0],
+            id_rsa_pub='',
+            tag=tag
+        )
+        ports = [0]
+        container = self.dockerc.create_container(
+            image=tag,
+            command=self.command,
+            ports=ports
+        )
+        port_bindings={}
+        self.dockerc.start(
+            container=container,
+            port_bindings=port_bindings
+        )
+        assert len(self.dockerc.containers(name='test')) > 0
+
+
+    @pytest.mark.skipif('"skip"')
     def test_stop(self):
         print '[TestDockerClient.test_stop()]'
         tag = 'test/test_start_stop_apache2'
@@ -114,6 +146,7 @@ class TestDockerClient(unittest.TestCase):
         assert  before != after
 
 
+    @pytest.mark.skipif('"skip"')
     def test_remove_container(self):
         print '[TestDockerClient.test_remove_container()]'
         tag = 'test/test_start_stop_apache2'
@@ -132,6 +165,7 @@ class TestDockerClient(unittest.TestCase):
         assert  before != after
 
 
+    @pytest.mark.skipif('"skip"')
     def test_remove_image(self):
         print '[TestDockerClient.test_remove_image()]'
         print '[TODO]'
